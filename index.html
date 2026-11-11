@@ -1,0 +1,826 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Druckwerkstatt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: Laborheft – Kopfzeile mit zwei Reitern, darunter zweispaltige Versuchsstationen (Simulation | Messwerte), die auf dem Handy stapeln */
+:root{
+  --bg:#f3f6f8; --surface:#ffffff; --ink:#14212b; --muted:#5a6b78; --line:#d5dee5;
+  --accent:#1f5fa8; --accent-soft:#e2ecf7; --gauge:#d2452b; --water:#3d8fd6; --water-deep:#1c4f86;
+  --ok:#1f8a55; --ok-soft:#e1f3e9; --bad:#c0392b; --bad-soft:#f9e3e0; --warn-soft:#fdf1d8;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1820; --surface:#16222c; --ink:#e4ecf2; --muted:#93a5b3; --line:#2a3a47;
+  --accent:#6ea8ec; --accent-soft:#1c3048; --gauge:#ff7a5c; --water:#3f86c8; --water-deep:#1b3d63;
+  --ok:#4cc38a; --ok-soft:#173527; --bad:#ff7b6b; --bad-soft:#3a1d1a; --warn-soft:#3a2f17; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1820; --surface:#16222c; --ink:#e4ecf2; --muted:#93a5b3; --line:#2a3a47;
+  --accent:#6ea8ec; --accent-soft:#1c3048; --gauge:#ff7a5c; --water:#3f86c8; --water-deep:#1b3d63;
+  --ok:#4cc38a; --ok-soft:#173527; --bad:#ff7b6b; --bad-soft:#3a1d1a; --warn-soft:#3a2f17; color-scheme:dark}
+
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{border-bottom:1px solid var(--line);background:var(--surface)}
+header .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-block:14px}
+.brand{display:flex;align-items:baseline;gap:10px}
+.brand h1{font-family:var(--f-display);font-weight:800;font-size:1.6rem;margin:0;letter-spacing:-.01em}
+.brand span{color:var(--muted);font-size:.9rem}
+nav{display:flex;gap:4px;background:var(--bg);padding:4px;border-radius:10px;border:1px solid var(--line)}
+nav a{font-family:var(--f-display);font-weight:700;text-decoration:none;color:var(--muted);padding:8px 16px;border-radius:7px}
+nav a[aria-current="page"]{background:var(--accent);color:var(--surface)}
+nav a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+main .wrap{padding-block:28px 60px;display:grid;gap:36px}
+h2{font-family:var(--f-display);font-weight:800;font-size:clamp(1.6rem,3.5vw,2.2rem);line-height:1.15;margin:0;text-wrap:balance}
+h3{font-family:var(--f-display);font-weight:700;font-size:1.25rem;margin:0}
+.lead{max-width:65ch;color:var(--muted);margin:8px 0 0}
+.eyebrow{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.station{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:20px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px}
+@media (max-width:760px){.station{grid-template-columns:1fr;padding:14px}}
+.station>*{min-width:0}
+canvas{width:100%;display:block;border-radius:10px;background:var(--bg);border:1px solid var(--line)}
+.controls{display:grid;gap:14px;align-content:start}
+.ctl label{display:flex;justify-content:space-between;font-weight:700;font-size:.95rem}
+.ctl label output{font-family:var(--f-mono);font-weight:400;color:var(--accent)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+select,input[type=text]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.readout{display:flex;align-items:center;gap:16px;background:var(--bg);border-radius:10px;padding:12px}
+.readout .num{font-family:var(--f-mono);font-size:1.7rem;font-weight:600;font-variant-numeric:tabular-nums}
+.readout .sub{color:var(--muted);font-size:.85rem}
+.note{font-size:.95rem;background:var(--accent-soft);border-radius:10px;padding:12px 14px;margin:0}
+.note b{color:var(--accent)}
+button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:8px 14px}
+button.primary{background:var(--accent);color:var(--surface);border-color:var(--accent);font-weight:700}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+
+/* Übung */
+.ladder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;align-items:stretch;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;position:relative}
+.rung{display:grid;justify-items:center;gap:4px;text-align:center}
+.rung .u{font-family:var(--f-display);font-weight:800;font-size:clamp(1.2rem,3.4vw,1.8rem);padding:8px 14px;border-radius:10px;border:2px solid var(--line);background:var(--bg);transition:border-color .2s,background .2s}
+.rung .u.on{border-color:var(--accent);background:var(--accent-soft)}
+.rung .d{font-size:.8rem;color:var(--muted)}
+.steps{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;margin-top:10px;gap:10px}
+.step{display:flex;justify-content:space-between;gap:6px;font-family:var(--f-mono);font-size:.9rem;padding:6px 10px;border-radius:8px;background:var(--bg);color:var(--muted);border:2px solid transparent}
+.step.on{border-color:var(--accent);color:var(--ink)}
+.step .fw,.step .bw{opacity:.55}.step.fwd .fw,.step.back .bw{opacity:1;font-weight:600;color:var(--accent)}
+.key{grid-column:1/-1;text-align:center;margin-top:10px;font-weight:700}
+.key code{font-family:var(--f-mono);background:var(--warn-soft);padding:2px 8px;border-radius:6px}
+
+.levels{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+@media (max-width:640px){.levels{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.lvl{text-align:left;display:grid;gap:2px;padding:10px 12px}
+.lvl b{font-family:var(--f-display)}
+.lvl small{color:var(--muted)}
+.lvl .bar{height:5px;background:var(--line);border-radius:3px;overflow:hidden;margin-top:4px}
+.lvl .bar i{display:block;height:100%;background:var(--ok);width:0}
+.lvl[aria-pressed="true"]{border:2px solid var(--accent);background:var(--accent-soft)}
+.lvl:disabled{opacity:.5;cursor:not-allowed}
+.task{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:16px}
+.taskhead{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:center}
+.streak{font-family:var(--f-mono);font-size:.9rem;color:var(--muted)}
+.streak b{color:var(--gauge)}
+.ctx{color:var(--muted);max-width:65ch;margin:0}
+.q{font-family:var(--f-mono);font-size:clamp(1.3rem,4vw,2rem);font-weight:600;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-variant-numeric:tabular-nums}
+.q input{font-family:var(--f-mono);font-size:inherit;font-weight:600;width:8.5ch;max-width:100%;text-align:right}
+.cmp{display:flex;gap:8px}
+.cmp button{font-family:var(--f-mono);font-size:1.5rem;font-weight:700;width:3.2rem;height:3.2rem;padding:0}
+.fb{border-radius:10px;padding:12px 14px;margin:0}
+.fb.ok{background:var(--ok-soft);color:var(--ok)}
+.fb.bad{background:var(--bad-soft)}
+.fb.bad strong{color:var(--bad)}
+.fb .way{font-family:var(--f-mono);display:block;margin-top:6px;color:var(--ink)}
+.dots{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.dots i{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);background:var(--bg);display:grid;place-items:center;font-style:normal;font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+.dots i.ok{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.dots i.cur{border-color:var(--accent);color:var(--accent);font-weight:700}
+.dots i.miss{border-color:var(--bad);color:var(--bad)}
+.dots span{margin-left:6px;font-size:.85rem;color:var(--muted)}
+.done-box{display:grid;gap:12px;font-family:var(--f-body);font-size:1rem;font-weight:400}
+.done-box h4{font-family:var(--f-display);font-size:1.4rem;margin:0;color:var(--ok)}
+.formula{display:flex;flex-wrap:wrap;align-items:center;gap:14px 28px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 22px}
+.frac{display:inline-grid;grid-template-columns:auto auto;align-items:center;gap:0 14px;font-family:var(--f-display);font-weight:800;font-size:clamp(2rem,6vw,3rem);line-height:1}
+.frac .fr{display:grid;justify-items:center}
+.frac .fr span{padding:2px 8px}
+.frac .fr span:first-child{border-bottom:4px solid var(--ink)}
+.frac .p{color:var(--gauge)} .frac .f{color:var(--accent)} .frac .a{color:var(--ok)}
+.legend{display:grid;gap:4px;font-size:.95rem}
+.legend b.p{color:var(--gauge)} .legend b.f{color:var(--accent)} .legend b.a{color:var(--ok)}
+.calc{font-family:var(--f-mono);font-size:.95rem;line-height:1.7;background:var(--bg);border-radius:10px;padding:12px;font-variant-numeric:tabular-nums;overflow-x:auto}
+.calc .big{font-size:1.4rem;font-weight:600;color:var(--gauge)}
+.presets{display:flex;flex-wrap:wrap;gap:6px}
+.presets button{font-size:.85rem;padding:6px 10px}
+.att{font-family:var(--f-mono);font-size:.9rem;color:var(--muted)}
+.att b{color:var(--accent)}
+.hint{background:var(--warn-soft);border-radius:10px;padding:10px 14px;margin:0}
+.summary{display:flex;flex-wrap:wrap;gap:20px;color:var(--muted);font-size:.9rem}
+.summary b{color:var(--ink);font-family:var(--f-mono)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand"><h1>Druckwerkstatt</h1><span>Druck in Flüssigkeiten und Gasen · Klasse 8</span></div>
+    <nav aria-label="Bereiche">
+      <a href="#modell" id="nav-modell">Modell</a>
+      <a href="#ueben" id="nav-ueben">Umrechnen üben</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- ===== MODELL ===== -->
+<section id="view-modell"><div class="wrap">
+  <div>
+    <div class="eyebrow">Teilchenmodell</div>
+    <h2>Was ist Druck?</h2>
+    <p class="lead">Druck gibt an, wie groß die Kraft ist, die auf jede Flächeneinheit wirkt. Dieselbe Kraft erzeugt auf einer kleinen Fläche einen großen Druck und auf einer großen Fläche einen kleinen Druck.</p>
+  </div>
+
+  <div class="formula" aria-label="Definition: Druck gleich Kraft durch Fläche">
+    <div class="frac"><span class="p">p</span><span>=</span></div>
+    <div class="frac"><span class="fr"><span class="f">F</span><span class="a">A</span></span></div>
+    <div class="legend">
+      <div><b class="p">p</b> Druck in Pascal (Pa)</div>
+      <div><b class="f">F</b> Kraft in Newton (N), die senkrecht auf die Fläche wirkt</div>
+      <div><b class="a">A</b> Fläche in Quadratmetern (m²)</div>
+      <div style="margin-top:4px"><b>1 Pa = 1 N/m²</b>: 1 Newton verteilt auf 1 Quadratmeter</div>
+    </div>
+  </div>
+
+  <div class="station">
+    <div>
+      <div class="eyebrow">Station 1 · Kraft pro Fläche</div>
+      <canvas id="faCanvas" width="640" height="340" aria-label="Simulation: Ein Gegenstand drückt mit einer Kraft auf eine Schneedecke"></canvas>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="fF"><span>Kraft <span style="color:var(--accent)">F</span></span> <output id="fFo">700 N</output></label><input type="range" id="fF" min="10" max="1000" step="10" value="700"></div>
+      <div class="ctl"><label for="fA"><span>Auflagefläche <span style="color:var(--ok)">A</span></span> <output id="fAo">300 cm²</output></label><input type="range" id="fA" min="0" max="100" value="75"></div>
+      <div class="presets" aria-label="Beispiele">
+        <button type="button" data-f="700" data-a="300">Wanderschuh</button>
+        <button type="button" data-f="700" data-a="1800">Schneeschuh</button>
+        <button type="button" data-f="500" data-a="1">Stöckelabsatz</button>
+      </div>
+      <div class="calc" id="fCalc"></div>
+      <p class="note" id="fNote"><b>Vergleiche:</b> Lass die Kraft gleich und mach die Fläche größer. Die Kraft verteilt sich, jeder Quadratzentimeter wird weniger belastet und man sinkt weniger ein.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="eyebrow">Teilchenmodell</div>
+    <h2>Woher kommt der Druck in Gasen und Flüssigkeiten?</h2>
+    <p class="lead">Gase und Flüssigkeiten bestehen aus winzigen Teilchen, die sich ständig bewegen. Treffen sie auf eine Wand, üben sie eine Kraft auf sie aus. Die Summe dieser Kräfte geteilt durch die Fläche der Wand ist der Druck.</p>
+  </div>
+
+  <div class="station">
+    <div>
+      <div class="eyebrow">Station 2 · Gas im Zylinder</div>
+      <canvas id="gasCanvas" width="640" height="340" aria-label="Simulation: Gasteilchen in einem Zylinder mit beweglichem Kolben"></canvas>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="gV">Kolben hineinschieben <output id="gVo">100 %</output></label><input type="range" id="gV" min="35" max="100" value="100"></div>
+      <div class="ctl"><label for="gT">Temperatur <output id="gTo">20 °C</output></label><input type="range" id="gT" min="-100" max="300" value="20"></div>
+      <div class="ctl"><label for="gN">Anzahl Teilchen <output id="gNo">60</output></label><input type="range" id="gN" min="10" max="150" value="60"></div>
+      <div class="readout">
+        <svg width="84" height="56" viewBox="0 0 84 56" aria-hidden="true">
+          <path d="M8 50 A34 34 0 0 1 76 50" fill="none" stroke="var(--line)" stroke-width="7" stroke-linecap="round"/>
+          <path id="gArc" d="M8 50 A34 34 0 0 1 76 50" fill="none" stroke="var(--gauge)" stroke-width="7" stroke-linecap="round" pathLength="100" stroke-dasharray="0 100"/>
+          <line id="gNeedle" x1="42" y1="50" x2="42" y2="20" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="42" cy="50" r="4" fill="var(--ink)"/>
+        </svg>
+        <div><div class="num" id="gP">1013 hPa</div><div class="sub" id="gHits">Stöße auf den Kolben: – pro s</div><div class="sub" id="gF">Kraft auf den Kolben: F = p · A</div></div>
+      </div>
+      <p class="note" id="gNote"><b>Probier es aus:</b> Schiebe den Kolben hinein. Die Teilchen haben weniger Platz und treffen öfter auf den Kolben.</p>
+      <div class="row"><button id="gPause">Pause</button><button id="gReset">Zurücksetzen</button></div>
+    </div>
+  </div>
+
+  <div class="station">
+    <div>
+      <div class="eyebrow">Station 3 · Schweredruck am U-Boot</div>
+      <canvas id="liqCanvas" width="640" height="420" aria-label="Simulation: U-Boot in verschiedenen Tiefen, Pfeile zeigen den Wasserdruck auf die Außenwand"></canvas>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="lH">Tauchtiefe <output id="lHo">100 m</output></label><input type="range" id="lH" min="10" max="300" step="5" value="100"></div>
+      <div class="ctl"><label for="lRho">Gewässer</label>
+        <select id="lRho">
+          <option value="1030">Meer (Salzwasser, 1030 kg/m³)</option>
+          <option value="1000">See (Süßwasser, 1000 kg/m³)</option>
+        </select>
+      </div>
+      <div class="readout"><div>
+        <div class="sub">Wasserdruck auf die Außenwand</div>
+        <div class="num" id="lP">10,1 bar</div>
+        <div class="sub" id="lTot"></div>
+      </div></div>
+      <div class="calc" id="lCalc"></div>
+      <p class="note"><b>Beobachte:</b> Das Wasser drückt <b>von allen Seiten</b> auf das U-Boot, auch von unten. Die Pfeile stehen immer senkrecht auf der Außenwand. Je tiefer das U-Boot taucht, desto höher ist die Wassersäule darüber (rot markierte Teilchen) und desto größer wird der Druck. Faustregel: alle 10 m Wasser kommt etwa 1 bar dazu.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- ===== ÜBEN ===== -->
+<section id="view-ueben" hidden><div class="wrap">
+  <div>
+    <div class="eyebrow">Einheiten umrechnen</div>
+    <h2>bar, mbar, hPa und Pa</h2>
+    <p class="lead">Die Treppe zeigt dir den Weg. Nach unten wird die Zahl größer (mal), nach oben kleiner (geteilt). Jede Stufe hat 10 Aufgaben. Erst wenn du alle 10 richtig gelöst hast, wird die nächste Stufe frei. Für jede Aufgabe hast du 2 Versuche. Klappt es beide Male nicht, kommt die Aufgabe am Ende der Runde noch einmal.</p>
+  </div>
+
+  <div class="ladder" aria-label="Umrechnungstreppe">
+    <div class="rung"><div class="u" id="r0">bar</div><div class="d">Bar</div></div>
+    <div class="rung"><div class="u" id="r1">mbar = hPa</div><div class="d">Millibar = Hektopascal</div></div>
+    <div class="rung"><div class="u" id="r2">Pa</div><div class="d">Pascal</div></div>
+    <div class="steps">
+      <div class="step" id="s0"><span class="bw">← : 1000</span><span class="fw">· 1000 →</span></div>
+      <div class="step" id="s1"><span class="bw">← : 100</span><span class="fw">· 100 →</span></div>
+    </div>
+    <div class="key">Merke: <code>1 bar = 1000 mbar = 1000 hPa = 100 000 Pa</code></div>
+  </div>
+
+  <div class="levels" id="levels"></div>
+
+  <div class="task" aria-live="polite">
+    <div class="taskhead">
+      <div style="display:grid;gap:8px;min-width:0"><h3 id="tTitle">Stufe 1</h3><div class="dots" id="dots" aria-label="Fortschritt in dieser Stufe"></div></div>
+      <div class="streak"><span class="att">Versuch <b id="att">1</b> von 2</span> · Serie: <b id="streak">0</b> · Bestwert: <span id="best">0</span></div>
+    </div>
+    <p class="ctx" id="ctx" hidden></p>
+    <form id="form" class="q" autocomplete="off"></form>
+    <div class="row">
+      <button type="button" id="hintBtn">Tipp anzeigen</button>
+      <button type="button" class="primary" id="nextBtn" hidden>Nächste Aufgabe</button>
+    </div>
+    <p class="hint" id="hint" hidden></p>
+    <div id="fb"></div>
+    <div class="summary" id="summary"></div>
+  </div>
+</div></section>
+</main>
+
+<script>
+(() => {
+/* ---------- Routing ---------- */
+const views = {modell: document.getElementById('view-modell'), ueben: document.getElementById('view-ueben')};
+function route(){
+  const h = location.hash.replace('#','');
+  const v = views[h] ? h : 'modell';
+  for (const k in views){
+    views[k].hidden = k !== v;
+    const a = document.getElementById('nav-'+k);
+    if (k===v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
+  }
+}
+addEventListener('hashchange', route); route();
+
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const de = (x, d=6) => x.toLocaleString('de-DE', {maximumFractionDigits:d});
+
+/* ---------- Canvas helper (HiDPI) ---------- */
+function setupCanvas(c){
+  const ratio = c.height / c.width;
+  function fit(){
+    const w = c.clientWidth, dpr = devicePixelRatio || 1;
+    c.width = Math.round(w*dpr); c.height = Math.round(w*ratio*dpr);
+    c.style.height = (w*ratio)+'px';
+    c.getContext('2d').setTransform(dpr,0,0,dpr,0,0);
+    c._w = w; c._h = w*ratio;
+  }
+  fit(); new ResizeObserver(fit).observe(c);
+  return c.getContext('2d');
+}
+
+/* ---------- Station 1: Kraft pro Fläche ---------- */
+const fc = document.getElementById('faCanvas'), fx = setupCanvas(fc);
+const fF = document.getElementById('fF'), fA = document.getElementById('fA');
+const AMAX = 2000;
+const areaOf = v => { const a = Math.pow(AMAX, v/100); return a < 10 ? Math.round(a*10)/10 : Math.round(a/ (a<100?1:10)) * (a<100?1:10); };
+const sliderOf = a => Math.round(100*Math.log(a)/Math.log(AMAX));
+function faVals(){ const F = +fF.value, A = Math.max(1, areaOf(+fA.value)); return {F, A, p: F/(A/10000)}; }
+function updFA(){
+  const {F,A,p} = faVals();
+  document.getElementById('fFo').textContent = de(F)+' N';
+  document.getElementById('fAo').textContent = de(A)+' cm²';
+  const Am = A/10000;
+  document.getElementById('fCalc').innerHTML =
+    `<span style="color:var(--gauge)">p</span> = <span style="color:var(--accent)">F</span> : <span style="color:var(--ok)">A</span><br>`+
+    `p = ${de(F)} N : ${de(Am,6)} m²<br>`+
+    `<span class="big">p = ${de(Math.round(p))} Pa</span><br>`+
+    `= ${de(Math.round(p/10)/10,1)} hPa = ${de(p/1e5,3)} bar<br>`+
+    `<span style="color:var(--muted)">Auf jeden cm² wirken ${de(F/A,2)} N.</span>`;
+  let note;
+  if (A <= 5) note = '<b>Winzige Fläche:</b> Die ganze Kraft drückt auf ganz wenig Fläche. Der Druck ist riesig, der Absatz bohrt sich tief in den Schnee.';
+  else if (A >= 1200) note = '<b>Große Fläche:</b> Die Kraft verteilt sich auf viele Quadratzentimeter. Der Druck ist klein, man sinkt kaum ein. Darum funktionieren Schneeschuhe.';
+  else note = '<b>Vergleiche:</b> Lass die Kraft gleich und mach die Fläche größer. Die Kraft verteilt sich, jeder Quadratzentimeter wird weniger belastet und man sinkt weniger ein.';
+  document.getElementById('fNote').innerHTML = note;
+}
+[fF,fA].forEach(el => el.addEventListener('input', updFA));
+document.querySelectorAll('.presets button').forEach(b => b.onclick = () => { fF.value = b.dataset.f; fA.value = sliderOf(+b.dataset.a); updFA(); });
+updFA();
+function arrow(c,x1,y1,x2,y2,w,col){
+  c.strokeStyle = col; c.fillStyle = col; c.lineWidth = w;
+  const a = Math.atan2(y2-y1,x2-x1), hl = Math.max(7,w*2.6);
+  c.beginPath(); c.moveTo(x1,y1); c.lineTo(x2-Math.cos(a)*hl*.8,y2-Math.sin(a)*hl*.8); c.stroke();
+  c.beginPath(); c.moveTo(x2,y2); c.lineTo(x2-Math.cos(a-0.45)*hl,y2-Math.sin(a-0.45)*hl); c.lineTo(x2-Math.cos(a+0.45)*hl,y2-Math.sin(a+0.45)*hl); c.fill();
+}
+function drawFA(){
+  const W = fc._w, H = fc._h, {F,A,p} = faVals();
+  fx.clearRect(0,0,W,H);
+  const ground = H*0.62;
+  const depth = Math.max(0, Math.min(H*0.3, (Math.log10(p)-3.3)*H*0.095));
+  const w = 18 + (W*0.62-18)*(Math.log(A)/Math.log(AMAX));
+  const cx = W*0.5, x0 = cx-w/2, x1 = cx+w/2;
+  // Schnee
+  fx.fillStyle = css('--surface'); fx.strokeStyle = css('--muted'); fx.lineWidth = 2;
+  fx.beginPath(); fx.moveTo(0,ground); fx.lineTo(x0-6,ground); fx.lineTo(x0,ground+depth); fx.lineTo(x1,ground+depth); fx.lineTo(x1+6,ground); fx.lineTo(W,ground); fx.lineTo(W,H); fx.lineTo(0,H); fx.closePath(); fx.fill(); fx.stroke();
+  fx.fillStyle = css('--muted'); fx.font = '12px '+css('--f-mono'); fx.fillText('Schnee', 10, H-12);
+  // Körper
+  const bh = 54, by = ground+depth-bh;
+  fx.fillStyle = css('--ink'); fx.globalAlpha = .85; fx.fillRect(x0, by, w, bh); fx.globalAlpha = 1;
+  // Auflagefläche
+  fx.fillStyle = css('--ok'); fx.fillRect(x0, ground+depth-4, w, 5);
+  // Kraftpfeil
+  const fl = 30 + 90*(F/1000);
+  arrow(fx, cx, by-fl-6, cx, by-6, 3+4*(F/1000), css('--accent'));
+  fx.fillStyle = css('--accent'); fx.font = '600 15px '+css('--f-mono');
+  fx.fillText('F = '+de(F)+' N', cx+14, by-fl/2);
+  // Druckpfeile auf der Fläche
+  const n = Math.max(1, Math.min(14, Math.round(w/34)));
+  const pl = Math.max(8, Math.min(70, H-(ground+depth)-10, (Math.log10(p)-3)*20));
+  for (let i=0;i<n;i++){
+    const x = x0 + w*(i+.5)/n;
+    arrow(fx, x, ground+depth+2, x, ground+depth+2+pl, 2.5, css('--gauge'));
+  }
+  fx.fillStyle = css('--gauge'); fx.font = '600 14px '+css('--f-mono');
+  const lbl = 'p = '+de(Math.round(p))+' Pa';
+  fx.fillText(lbl, Math.min(W-fx.measureText(lbl).width-8, x1+12), ground+depth+24);
+  fx.fillStyle = css('--ok'); fx.font = '13px '+css('--f-mono');
+  const al = 'A = '+de(A)+' cm²';
+  fx.fillText(al, Math.max(8, x0-fx.measureText(al).width-12), ground-8);
+}
+
+/* ---------- Station 2: Gas ---------- */
+const gc = document.getElementById('gasCanvas'), g = setupCanvas(gc);
+const gV = document.getElementById('gV'), gT = document.getElementById('gT'), gN = document.getElementById('gN');
+let parts = [], hits = [], paused = false;
+function speedFor(T){ return 2.2*Math.sqrt((T+273)/293); }
+function spawn(n){
+  while (parts.length < n){
+    const a = Math.random()*Math.PI*2;
+    parts.push({x:0.05+Math.random()*0.3, y:0.1+Math.random()*0.8, a});
+  }
+  parts.length = n;
+}
+spawn(60);
+function gasGeom(){
+  const W = gc._w, H = gc._h, m = 14;
+  const left = m, top = m+8, bottom = H-m-8, full = W-m-40;
+  const right = left + (full-left)*(+gV.value/100);
+  return {W,H,left,top,bottom,right,full};
+}
+function updGasLabels(){
+  document.getElementById('gVo').textContent = gV.value+' %';
+  document.getElementById('gTo').textContent = gT.value+' °C';
+  document.getElementById('gNo').textContent = gN.value;
+  const p = 1013*(gN.value/60)*((+gT.value+273)/293)/(gV.value/100);
+  document.getElementById('gP').textContent = de(Math.round(p))+' hPa';
+  const Fk = p*100*0.005;
+  document.getElementById('gF').textContent = 'Kraft auf den Kolben (A = 50 cm²): F = p · A = '+de(Math.round(Fk))+' N';
+  const f = Math.min(1, p/6000);
+  document.getElementById('gArc').setAttribute('stroke-dasharray', (f*100)+' 100');
+  const ang = Math.PI*(1-f);
+  const nd = document.getElementById('gNeedle');
+  nd.setAttribute('x2', 42+30*Math.cos(ang)); nd.setAttribute('y2', 50-30*Math.sin(ang));
+  let note;
+  if (gV.value < 70) note = '<b>Weniger Platz:</b> Die Teilchen stoßen viel öfter gegen den Kolben. Der Druck steigt.';
+  else if (gT.value > 120) note = '<b>Wärmer:</b> Die Teilchen sind schneller und prallen öfter und heftiger auf. Der Druck steigt.';
+  else if (gT.value < -40) note = '<b>Kälter:</b> Die Teilchen werden langsamer. Es gibt weniger und schwächere Stöße.';
+  else if (gN.value > 100) note = '<b>Mehr Teilchen:</b> Mehr Teilchen bedeuten mehr Stöße pro Sekunde. Der Druck steigt.';
+  else note = '<b>Probier es aus:</b> Schiebe den Kolben hinein. Die Teilchen haben weniger Platz und treffen öfter auf den Kolben.';
+  document.getElementById('gNote').innerHTML = note;
+}
+[gV,gT,gN].forEach(el => el.addEventListener('input', () => { spawn(+gN.value); updGasLabels(); }));
+document.getElementById('gPause').onclick = e => { paused = !paused; e.target.textContent = paused ? 'Weiter' : 'Pause'; };
+document.getElementById('gReset').onclick = () => { gV.value=100; gT.value=20; gN.value=60; parts=[]; spawn(60); updGasLabels(); };
+updGasLabels();
+
+function drawGas(now){
+  const G = gasGeom(), {W,H,left,top,bottom,right} = G;
+  const iw = right-left, ih = bottom-top;
+  const sp = speedFor(+gT.value);
+  if (!paused){
+    for (const p of parts){
+      let px = left + p.x*(G.full-left), py = top + p.y*ih;
+      px += Math.cos(p.a)*sp; py += Math.sin(p.a)*sp;
+      if (px < left+4){ px = left+4; p.a = Math.PI - p.a; }
+      if (px > right-4){ px = right-4; p.a = Math.PI - p.a; hits.push(now); p.flash = now; }
+      if (py < top+4){ py = top+4; p.a = -p.a; }
+      if (py > bottom-4){ py = bottom-4; p.a = -p.a; }
+      p.x = (px-left)/(G.full-left); p.y = (py-top)/ih;
+    }
+  }
+  while (hits.length && now-hits[0] > 1000) hits.shift();
+  g.clearRect(0,0,W,H);
+  // Zylinder
+  g.fillStyle = css('--surface'); g.fillRect(left,top,G.full-left,ih);
+  g.strokeStyle = css('--muted'); g.lineWidth = 3;
+  g.beginPath(); g.moveTo(G.full+30,top); g.lineTo(left,top); g.lineTo(left,bottom); g.lineTo(G.full+30,bottom); g.stroke();
+  // Teilchen
+  const acc = css('--accent'), hot = css('--gauge');
+  for (const p of parts){
+    const px = left + p.x*(G.full-left), py = top + p.y*ih;
+    g.fillStyle = (p.flash && now-p.flash < 180) ? hot : acc;
+    g.beginPath(); g.arc(px,py,4,0,Math.PI*2); g.fill();
+  }
+  // Kolben
+  g.fillStyle = css('--ink'); g.fillRect(right,top+2,10,ih-4);
+  g.fillRect(right+10,top+ih/2-5,W-right-10,10);
+  // Bereich hinter Kolben
+  g.fillStyle = css('--line'); g.globalAlpha=.35; g.fillRect(right+10,top+2,G.full-right,ih-4); g.globalAlpha=1;
+  document.getElementById('gHits').textContent = 'Stöße auf den Kolben: '+hits.length+' pro s';
+}
+
+/* ---------- Station 3: U-Boot ---------- */
+const lc = document.getElementById('liqCanvas'), l = setupCanvas(lc);
+const lH = document.getElementById('lH'), lRho = document.getElementById('lRho');
+const DMAX = 300;
+function updLiq(){
+  const h = +lH.value, rho = +lRho.value;
+  const pPa = rho*9.81*h, pBar = pPa/1e5;
+  document.getElementById('lHo').textContent = de(h)+' m';
+  document.getElementById('lP').textContent = de(pBar,1)+' bar';
+  document.getElementById('lTot').textContent = '= '+de(Math.round(pPa/100))+' hPa · mit Luftdruck zusammen etwa '+de(pBar+1.013,1)+' bar';
+  const Fl = pPa*0.5, autos = Fl/(1500*9.81);
+  document.getElementById('lCalc').innerHTML =
+    `Auf jeden cm² der Außenwand: F = p · A = ${de(Math.round(pPa))} Pa · 0,0001 m² ≈ <b>${de(pPa*1e-4,1)} N</b><br>`+
+    `Auf die Einstiegsluke (A = 0,5 m²): F = ${de(Math.round(pPa))} Pa · 0,5 m² ≈ <b>${de(Math.round(Fl/1000))} kN</b><br>`+
+    `<span style="color:var(--muted)">Das ist so viel wie die Gewichtskraft von etwa ${de(Math.max(1,Math.round(autos)))} Autos (je 1,5 t).</span>`;
+}
+[lH,lRho].forEach(el => el.addEventListener('input', updLiq)); updLiq();
+const grid = []; for (let r=0;r<18;r++) for (let c=0;c<24;c++) grid.push({r,c,ph:Math.random()*6.28});
+function mix(c1, c2, t){
+  const h = c => { c = c.replace('#',''); return [0,2,4].map(i => parseInt(c.substr(i,2),16)); };
+  try { const a = h(c1), b = h(c2); return 'rgb('+a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join(',')+')'; } catch(e){ return c2; }
+}
+function drawLiq(now){
+  const W = lc._w, H = lc._h;
+  const top = 30, bottom = H-10, left = 10, right = W-10;
+  const pad0 = 46, padB = 78;
+  const yOf = m => top + pad0 + (bottom-top-pad0-padB)*m/DMAX;
+  l.clearRect(0,0,W,H);
+  // Himmel/Luft
+  l.fillStyle = css('--muted'); l.font = '12px '+css('--f-mono');
+  l.fillText('Luft · Luftdruck ≈ 1 bar', left+4, 18);
+  // Meer
+  const grad = l.createLinearGradient(0,top,0,bottom);
+  grad.addColorStop(0, css('--water')); grad.addColorStop(1, css('--water-deep'));
+  l.fillStyle = grad; l.globalAlpha = .38; l.fillRect(left,top,right-left,bottom-top); l.globalAlpha = 1;
+  l.strokeStyle = css('--water'); l.lineWidth = 2;
+  l.beginPath(); for (let x=left;x<=right;x+=6){ const y = top+Math.sin(x/18+now/700)*2; x===left?l.moveTo(x,y):l.lineTo(x,y); } l.stroke();
+  // Tiefenskala
+  l.fillStyle = css('--muted'); l.font = '11px '+css('--f-mono');
+  for (let m=50;m<=DMAX;m+=50){ const y = yOf(m); l.fillText(m+' m', right-44, y+4); l.fillRect(right-52,y,6,1); }
+  // U-Boot-Geometrie
+  const h = +lH.value, cy = yOf(h), cx = (left+right)/2 - 20;
+  const rx = Math.min(150, W*0.27), ry = Math.max(18, Math.min(30, H*0.065));
+  const tw = rx*0.32, th = ry*0.9, tx = cx - rx*0.15;
+  const subTop = cy - ry - th;
+  // Teilchen, Wassersäule über dem U-Boot rot
+  const cols = 24, rows = 18, cw = (right-left)/cols, rh = (bottom-top)/rows;
+  const wob = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1;
+  for (const q of grid){
+    const x = left+cw*(q.c+.5) + Math.sin(now/600+q.ph)*1.2*wob;
+    const y = top+rh*(q.r+.5) + Math.cos(now/700+q.ph)*1.2*wob;
+    const dx = (x-cx)/(rx+6), dy = (y-cy)/(ry+6);
+    if (dx*dx+dy*dy < 1) continue;
+    if (x > tx-tw/2-4 && x < tx+tw/2+4 && y > subTop-4 && y < cy) continue;
+    const above = x > cx-rx && x < cx+rx && y < subTop-6;
+    l.fillStyle = above ? css('--gauge') : css('--water');
+    l.globalAlpha = above ? .75 : .5;
+    l.beginPath(); l.arc(x,y,Math.min(cw,rh)*.26,0,Math.PI*2); l.fill();
+  }
+  l.globalAlpha = 1;
+  // Wassersäule beschriften
+  l.fillStyle = css('--gauge'); l.font = '600 12px '+css('--f-mono');
+  if (subTop - top > 150){ l.save(); l.translate(cx-rx-14, (top+subTop)/2); l.rotate(-Math.PI/2); l.textAlign='center'; l.fillText('Wassersäule '+de(h)+' m', 0, 0); l.restore(); }
+  // Druckpfeile
+  const f = h/DMAX;
+  const L = 8 + 52*f, lw = 1.5 + 3*f;
+  const col = mix(css('--water-deep'), css('--gauge'), Math.min(1, 0.45 + f*0.8));
+  const N = 30;
+  for (let k=0;k<N;k++){
+    const t = k/N*Math.PI*2;
+    const px = cx + rx*Math.cos(t), py = cy + ry*Math.sin(t);
+    if (py < cy && Math.abs(px-tx) < tw/2+6) continue; // Turm
+    let nx = Math.cos(t)/rx, ny = Math.sin(t)/ry; const nl = Math.hypot(nx,ny); nx/=nl; ny/=nl;
+    arrow(l, px+nx*(L+4), py+ny*(L+4), px+nx*3, py+ny*3, lw, col);
+  }
+  // Turm-Pfeile (oben und seitlich)
+  for (const [x,y,nx,ny] of [[tx,subTop,0,-1],[tx-tw/2,subTop+th*0.45,-1,0],[tx+tw/2,subTop+th*0.45,1,0]])
+    arrow(l, x+nx*(L+4), y+ny*(L+4), x+nx*3, y+ny*3, lw, col);
+  // Rumpf
+  l.fillStyle = css('--ink'); l.strokeStyle = col; l.lineWidth = 1.5 + 3*f;
+  l.beginPath(); l.roundRect ? l.roundRect(tx-tw/2, subTop, tw, th+ry*0.6, 6) : l.rect(tx-tw/2, subTop, tw, th+ry*0.6); l.fill(); l.stroke();
+  l.beginPath(); l.ellipse(cx, cy, rx, ry, 0, 0, Math.PI*2); l.fill(); l.stroke();
+  // Heckruder + Bullaugen
+  l.fillStyle = css('--ink');
+  l.beginPath(); l.moveTo(cx+rx-6, cy); l.lineTo(cx+rx+16, cy-ry*0.8); l.lineTo(cx+rx+16, cy+ry*0.8); l.closePath(); l.fill();
+  l.fillStyle = css('--water'); 
+  for (let i=0;i<4;i++){ l.beginPath(); l.arc(cx - rx*0.55 + i*rx*0.3, cy, ry*0.2, 0, Math.PI*2); l.fill(); }
+  // Luke
+  l.fillStyle = css('--ok'); l.fillRect(tx-tw*0.3, subTop-3, tw*0.6, 4);
+  // Beschriftung im Rumpf
+  l.fillStyle = css('--surface'); l.font = '600 '+Math.round(ry*0.55)+'px '+css('--f-mono'); l.textAlign = 'center';
+  l.fillText(de(+lRho.value*9.81*h/1e5,1)+' bar', cx + rx*0.45, cy + ry*0.2);
+  l.textAlign = 'left';
+  // Tiefenmarke
+  l.strokeStyle = css('--muted'); l.setLineDash([4,4]); l.lineWidth = 1;
+  l.beginPath(); l.moveTo(cx+rx+20, cy); l.lineTo(right-56, cy); l.stroke(); l.setLineDash([]);
+  l.fillStyle = css('--ink'); l.font = '600 12px '+css('--f-mono');
+  const dl = de(h)+' m'; l.fillText(dl, right-56-l.measureText(dl).width, cy-6);
+}
+
+function loop(now){
+  if (!views.modell.hidden){ drawFA(); drawGas(now); drawLiq(now); }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+/* ---------- Übung ---------- */
+const F = {bar:1e5, mbar:100, hPa:100, Pa:1};
+const RUNG = {bar:0, mbar:1, hPa:1, Pa:2};
+const round = x => Math.round(x*1e9)/1e9;
+const pick = a => a[Math.floor(Math.random()*a.length)];
+const LEVELS = [
+  {name:'Stufe 1', desc:'Ein Schritt, ganze Zahlen'},
+  {name:'Stufe 2', desc:'Kommazahlen, zwei Schritte'},
+  {name:'Stufe 3', desc:'Vergleichen'},
+  {name:'Stufe 4', desc:'Aufgaben aus dem Alltag'},
+];
+const GOAL = 10;
+const fresh = () => ({lvl:0, done:[0,0,0,0], tries:[0,0,0,0], right:0, streak:0, best:0, sets:[null,null,null,null], queue:[[],[],[],[]], miss:[[],[],[],[]]});
+const KEY = 'druckwerkstatt-v2';
+let state = fresh();
+try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.sets) state = Object.assign(state, s); } catch(e){}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} };
+let task = null, answered = false;
+
+function genConvert(lvl){
+  if (lvl===0){
+    const pairs = [['bar','mbar'],['mbar','bar'],['bar','hPa'],['hPa','bar'],['hPa','Pa'],['Pa','hPa'],['mbar','Pa'],['Pa','mbar'],['hPa','mbar']];
+    const [from,to] = pick(pairs);
+    let v;
+    if (F[from] > F[to]) v = pick([1,2,3,4,5,6,7,8,9,10,12,20,25,50]);
+    else v = pick([1,2,3,4,5,6,8,9,10,12,15,20,25,50]) * (F[to]/F[from]);
+    if (from==='hPa' && to==='mbar') v = pick([980,1000,1013,1020,1035]);
+    return {type:'conv', v:round(v), from, to};
+  }
+  const pairs = [['bar','Pa'],['Pa','bar'],['bar','hPa'],['hPa','bar'],['mbar','Pa'],['Pa','hPa'],['bar','mbar'],['mbar','bar']];
+  const [from,to] = pick(pairs);
+  const nice = { bar:[0.5,1.2,2.5,0.25,0.08,3.4,0.013,1.013], mbar:[250,12,1013,4.5,1500,80], hPa:[1013,250,12,980,4.5,1500], Pa:[2500,350,101300,45000,800,120000] };
+  return {type:'conv', v:pick(nice[from]), from, to};
+}
+const CONTEXTS = [
+  () => { const v = pick([998,1005,1013,1024,1031]); return {ctx:`Im Wetterbericht wird ein Luftdruck von ${de(v)} hPa gemeldet. Wie viel bar sind das?`, v, from:'hPa', to:'bar'}; },
+  () => { const v = pick([1.8,2.0,2.2,2.5,2.8]); return {ctx:`Ein Autoreifen soll auf ${de(v)} bar aufgepumpt werden. Wie viel hPa sind das?`, v, from:'bar', to:'hPa'}; },
+  () => { const d = pick([10,20,30,40]); const v = d/10; return {ctx:`Eine Taucherin ist ${d} m tief. Das Wasser drückt dort mit etwa ${de(v)} bar auf sie. Wie viel Pa sind das?`, v, from:'bar', to:'Pa'}; },
+  () => { const v = pick([3,4,5,6]); return {ctx:`Ein Fahrradreifen hat ${de(v)} bar. Wie viel mbar sind das?`, v, from:'bar', to:'mbar'}; },
+  () => { const v = pick([150000,200000,250000]); return {ctx:`Eine Luftpumpe zeigt ${de(v)} Pa an. Wie viel bar sind das?`, v, from:'Pa', to:'bar'}; },
+  () => { const v = pick([700,800,850]); return {ctx:`Auf der Zugspitze beträgt der Luftdruck nur etwa ${de(v)} hPa. Wie viel Pa sind das?`, v, from:'hPa', to:'Pa'}; },
+  () => { const v = pick([6,8,10]); return {ctx:`Ein Mineralwasser-Sprudler arbeitet mit etwa ${de(v)} bar. Wie viel hPa sind das?`, v, from:'bar', to:'hPa'}; },
+];
+function genCompare(){
+  const units = ['bar','mbar','hPa','Pa'];
+  let ua = pick(units), ub = pick(units.filter(u => u!==ua));
+  const baseBar = pick([0.5,0.9,1,1.013,1.2,2,0.25]);
+  const a = round(baseBar*1e5/F[ua]);
+  const rel = pick([1, 1, 0.9, 1.1, 10, 0.1, 0.95]);
+  const b = round(baseBar*rel*1e5/F[ub]);
+  const pa = a*F[ua], pb = b*F[ub];
+  const sign = Math.abs(pa-pb) < 1e-6*pa ? '=' : (pa>pb ? '>' : '<');
+  return {type:'cmp', a, ua, b, ub, sign};
+}
+function makeSet(lvl){
+  const out = [], keys = new Set(); let guard = 0;
+  // Stufe 3: Antworten <, =, > ausgewogen mischen
+  const want = ['<','<','<','=','=','=','>','>','>', pick(['<','>'])];
+  while (out.length < GOAL && guard++ < 2000){
+    let t;
+    if (lvl===2){ t = genCompare(); if (!want.includes(t.sign)) continue; }
+    else if (lvl===3){ const c = pick(CONTEXTS)(); t = {type:'conv', v:c.v, from:c.from, to:c.to, ctx:c.ctx}; }
+    else t = genConvert(lvl);
+    const k = JSON.stringify(t);
+    if (keys.has(k)) continue;
+    if (lvl===3 && out.some(o => o.ctx.slice(0,25)===t.ctx.slice(0,25)) && out.length < CONTEXTS.length) continue;
+    keys.add(k); out.push(t);
+    if (lvl===2) want.splice(want.indexOf(t.sign),1);
+  }
+  return out.sort(() => Math.random()-0.5);
+}
+function startSet(lvl){
+  state.sets[lvl] = makeSet(lvl);
+  state.queue[lvl] = state.sets[lvl].map((_,i) => i);
+  state.miss[lvl] = [];
+  state.done[lvl] = 0;
+  save();
+}
+function newTask(){
+  answered = false;
+  const lvl = state.lvl;
+  if (!state.sets[lvl]) startSet(lvl);
+  if (!state.queue[lvl].length){ task = null; renderComplete(); return; }
+  const idx = state.queue[lvl][0];
+  task = Object.assign({}, state.sets[lvl][idx], {lvl, idx, attempt:1});
+  render();
+}
+function renderDots(){
+  const lvl = state.lvl, set = state.sets[lvl] || [], q = state.queue[lvl] || [];
+  const cur = task ? task.idx : -1;
+  document.getElementById('dots').innerHTML = set.map((_,i) => {
+    const solved = !q.includes(i);
+    const cls = solved ? 'ok' : (i===cur ? 'cur' : (state.miss[lvl].includes(i) ? 'miss' : ''));
+    return `<i class="${cls}" title="Aufgabe ${i+1}">${i+1}</i>`;
+  }).join('') + `<span>${GOAL - q.length} von ${GOAL} richtig</span>`;
+}
+function renderComplete(){
+  const lvl = state.lvl;
+  document.getElementById('tTitle').textContent = LEVELS[lvl].name+': '+LEVELS[lvl].desc;
+  document.getElementById('ctx').hidden = true;
+  const next = lvl < 3;
+  document.getElementById('form').innerHTML = `<div class="done-box"><h4>Alle 10 Aufgaben richtig gelöst!</h4>
+    <p style="margin:0">${next ? LEVELS[lvl+1].name+' ist jetzt freigeschaltet.' : 'Du hast alle vier Stufen geschafft. Stark!'}</p>
+    <div class="row">${next ? '<button type="button" class="primary" id="goNext">Weiter zu '+LEVELS[lvl+1].name+'</button>' : ''}<button type="button" id="again">Stufe mit neuen Aufgaben wiederholen</button></div></div>`;
+  if (next) document.getElementById('goNext').onclick = () => { state.lvl = lvl+1; save(); newTask(); };
+  document.getElementById('again').onclick = () => { startSet(lvl); newTask(); };
+  ['hint','nextBtn','hintBtn'].forEach(id => document.getElementById(id).hidden = true);
+  document.getElementById('fb').innerHTML = '';
+  lightLadder(null);
+  renderLevels(); renderDots();
+}
+function lightLadder(from,to,dir){
+  ['r0','r1','r2'].forEach(id => document.getElementById(id).classList.remove('on'));
+  ['s0','s1'].forEach(id => document.getElementById(id).className = 'step');
+  if (!from) return;
+  const a = RUNG[from], b = RUNG[to];
+  document.getElementById('r'+a).classList.add('on'); document.getElementById('r'+b).classList.add('on');
+  for (let i=Math.min(a,b); i<Math.max(a,b); i++){
+    const s = document.getElementById('s'+i); s.classList.add('on'); s.classList.add(b>a?'fwd':'back');
+  }
+}
+function render(){
+  const lvl = state.lvl;
+  document.getElementById('tTitle').textContent = LEVELS[lvl].name+': '+LEVELS[lvl].desc;
+  const ctx = document.getElementById('ctx');
+  ctx.hidden = !task.ctx; ctx.textContent = task.ctx || '';
+  const form = document.getElementById('form');
+  if (task.type==='conv'){
+    form.innerHTML = `<span>${de(task.v)} ${task.from}</span><span>=</span><input type="text" id="ans" inputmode="decimal" aria-label="Ergebnis in ${task.to}"><span>${task.to}</span><button class="primary" type="submit">Prüfen</button>`;
+    setTimeout(() => document.getElementById('ans').focus(), 0);
+  } else {
+    form.innerHTML = `<span>${de(task.a)} ${task.ua}</span><span class="cmp">${['<','=','>'].map(s=>`<button type="button" data-s="${s}" aria-label="${s==='<'?'kleiner als':s==='='?'gleich':'größer als'}">${s}</button>`).join('')}</span><span>${de(task.b)} ${task.ub}</span>`;
+    form.querySelectorAll('[data-s]').forEach(b => b.onclick = () => check(b.dataset.s));
+  }
+  document.getElementById('hint').hidden = true;
+  document.getElementById('fb').innerHTML = '';
+  document.getElementById('att').textContent = '1';
+  document.getElementById('nextBtn').hidden = true;
+  document.getElementById('hintBtn').hidden = false;
+  lightLadder(null);
+  renderLevels(); renderDots();
+}
+function parseNum(s){
+  s = s.trim().replace(/\s| | /g,'');
+  if (!s) return NaN;
+  if (s.includes(',')) s = s.replace(/\./g,'').replace(',', '.');
+  else if (/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g,'');
+  return Number(s);
+}
+function way(v,from,to){
+  const a = RUNG[from], b = RUNG[to];
+  if (a===b) return `${de(v)} ${from} = ${de(v)} ${to}, denn 1 hPa = 1 mbar.`;
+  const steps = [];
+  let x = v, u = from;
+  const order = ['bar','hPa','Pa'];
+  let i = a;
+  while (i!==b){
+    const j = i + (b>i?1:-1);
+    const f = (i===0||j===0) ? 1000 : 100;
+    const nu = j===1 ? (to==='mbar'||from==='mbar' ? 'mbar' : 'hPa') : order[j];
+    const nx = round(b>i ? x*f : x/f);
+    steps.push(`${de(x)} ${u} ${b>i?'·':':'} ${de(f)} = ${de(nx)} ${nu}`);
+    x = nx; u = nu; i = j;
+  }
+  return steps.join('<br>');
+}
+function diagnose(ans, t){
+  const correct = round(t.v*F[t.from]/F[t.to]);
+  const r = ans/correct;
+  const near = (x,y) => Math.abs(x-y) < 1e-6*Math.max(1,Math.abs(y));
+  if ((t.from==='hPa'&&t.to==='mbar')||(t.from==='mbar'&&t.to==='hPa')) return 'Bei hPa und mbar musst du gar nicht rechnen: 1 hPa ist genau 1 mbar.';
+  const wrongDir = round(t.v*F[t.to]/F[t.from]);
+  if (near(ans, wrongDir)) return 'Du hast in die falsche Richtung gerechnet. Schau auf die Treppe: Gehst du nach rechts, wird die Zahl größer.';
+  if (near(r,10)||near(r,0.1)) return 'Du liegst genau um den Faktor 10 daneben. Prüfe, ob du ein Komma oder eine Null zu viel oder zu wenig hast.';
+  if (near(r,1000)||near(r,0.001)||near(r,100)||near(r,0.01)) return 'Du hast den richtigen Weg begonnen, aber einen Schritt der Treppe vergessen oder zu viel gemacht.';
+  if (near(r,10/1)) return '';
+  return '';
+}
+function check(given){
+  if (answered) return;
+  const t = task, fb = document.getElementById('fb');
+  let ok, wayHtml, extra = '';
+  if (t.type==='conv'){
+    const inp = document.getElementById('ans');
+    const ans = parseNum(inp.value);
+    if (isNaN(ans)){ fb.innerHTML = `<p class="fb bad">Gib eine Zahl ein, zum Beispiel <b>2,5</b> oder <b>1500</b>.</p>`; return; }
+    const correct = round(t.v*F[t.from]/F[t.to]);
+    ok = Math.abs(ans-correct) <= 1e-9*Math.max(1,Math.abs(correct));
+    wayHtml = way(t.v,t.from,t.to);
+    if (!ok) extra = diagnose(ans,t);
+    if (!ok && t.attempt===1){
+      t.attempt = 2; state.tries[t.lvl]++; save();
+      document.getElementById('att').textContent = '2';
+      lightLadder(t.from,t.to);
+      fb.innerHTML = `<p class="fb bad"><strong>Noch nicht.</strong> ${extra || 'Schau dir den markierten Weg auf der Treppe an und rechne Schritt für Schritt.'}<br><small>Du hast noch einen zweiten Versuch.</small></p>`;
+      inp.select(); inp.focus();
+      return;
+    }
+    inp.disabled = true;
+    lightLadder(t.from,t.to);
+    if (!ok) wayHtml += `<br>Richtig ist: <b>${de(correct)} ${t.to}</b>`;
+  } else {
+    ok = given === t.sign;
+    if (!ok && t.attempt===1){
+      t.attempt = 2; state.tries[t.lvl]++; save();
+      document.getElementById('att').textContent = '2';
+      const b = document.querySelector(`[data-s="${given}"]`); if (b) b.disabled = true;
+      fb.innerHTML = `<p class="fb bad"><strong>Noch nicht.</strong> Rechne beide Angaben zuerst in dieselbe Einheit um, am besten in Pa.<br><small>Du hast noch einen zweiten Versuch.</small></p>`;
+      return;
+    }
+    const pa = round(t.a*F[t.ua]), pb = round(t.b*F[t.ub]);
+    wayHtml = `Rechne beide in Pa um: ${de(t.a)} ${t.ua} = ${de(pa)} Pa und ${de(t.b)} ${t.ub} = ${de(pb)} Pa.<br>Also: ${de(t.a)} ${t.ua} <b>${t.sign}</b> ${de(t.b)} ${t.ub}`;
+    document.querySelectorAll('[data-s]').forEach(b => { b.disabled = true; if (b.dataset.s===t.sign) b.classList.add('primary'); });
+  }
+  answered = true;
+  state.tries[t.lvl]++;
+  const q = state.queue[t.lvl];
+  if (ok){
+    q.shift();
+    state.done[t.lvl] = GOAL - q.length;
+    state.right++; state.streak++; state.best = Math.max(state.best, state.streak);
+    const praise = pick(['Richtig!','Genau!','Stimmt!','Sehr gut!']);
+    const rest = q.length ? ` Noch ${q.length} ${q.length===1?'Aufgabe':'Aufgaben'} in dieser Stufe.` : ' Das war die letzte Aufgabe dieser Stufe!';
+    fb.innerHTML = `<p class="fb ok"><strong>${praise}</strong>${rest}<span class="way">${wayHtml}</span></p>`;
+  } else {
+    state.streak = 0;
+    q.push(q.shift());
+    if (!state.miss[t.lvl].includes(t.idx)) state.miss[t.lvl].push(t.idx);
+    fb.innerHTML = `<p class="fb bad"><strong>Noch nicht.</strong> ${extra}<span class="way">${wayHtml}</span><br><small>Auch der zweite Versuch war falsch. Diese Aufgabe kommt am Ende der Runde noch einmal.</small></p>`;
+  }
+  document.getElementById('nextBtn').textContent = q.length ? 'Nächste Aufgabe' : 'Stufe abschließen';
+  save();
+  document.getElementById('nextBtn').hidden = false;
+  document.getElementById('hintBtn').hidden = true;
+  document.getElementById('nextBtn').focus();
+  renderLevels(); renderDots();
+}
+document.getElementById('form').addEventListener('submit', e => { e.preventDefault(); check(); });
+document.getElementById('nextBtn').onclick = newTask;
+document.getElementById('hintBtn').onclick = () => {
+  if (!task) return;
+  const h = document.getElementById('hint'); h.hidden = false;
+  if (task.type==='conv'){
+    lightLadder(task.from, task.to);
+    const a = RUNG[task.from], b = RUNG[task.to];
+    h.textContent = a===b ? 'hPa und mbar stehen auf derselben Stufe der Treppe.' :
+      `Gehe auf der Treppe von ${task.from} nach ${task.to}. Das sind ${Math.abs(a-b)===1?'ein Schritt':'zwei Schritte'} ${b>a?'nach rechts (mal rechnen)':'nach links (geteilt rechnen)'}.`;
+  } else {
+    h.textContent = 'Rechne beide Angaben zuerst in dieselbe Einheit um, am einfachsten in Pa. Dann kannst du die Zahlen direkt vergleichen.';
+  }
+};
+function unlocked(i){ return i===0 || state.done[i-1] >= GOAL; }
+function renderLevels(){
+  const box = document.getElementById('levels');
+  box.innerHTML = LEVELS.map((L,i) => `<button class="lvl" data-l="${i}" aria-pressed="${i===state.lvl}" ${unlocked(i)?'':'disabled'}>
+    <b>${L.name}${unlocked(i)?'':' (gesperrt)'}</b><small>${L.desc}</small><small>${state.done[i]===GOAL?'geschafft':state.done[i]+' von '+GOAL+' richtig'}</small><span class="bar"><i style="width:${state.done[i]/GOAL*100}%"></i></span></button>`).join('');
+  box.querySelectorAll('.lvl').forEach(b => b.onclick = () => { state.lvl = +b.dataset.l; save(); newTask(); });
+  document.getElementById('streak').textContent = state.streak;
+  document.getElementById('best').textContent = state.best;
+  const tot = state.done.reduce((a,b)=>a+b,0), tries = state.tries.reduce((a,b)=>a+b,0);
+  document.getElementById('summary').innerHTML = `<span>Gelöst: <b>${tot}</b> von ${GOAL*4}</span><span>Versuche: <b>${tries}</b></span><span>Trefferquote: <b>${tries?Math.round(state.right/tries*100):0} %</b></span><button type="button" id="resetProg">Fortschritt löschen</button>`;
+  document.getElementById('resetProg').onclick = () => { state = fresh(); save(); newTask(); };
+}
+if (!unlocked(state.lvl)) state.lvl = 0;
+newTask();
+})();
+</script>
+
+</body>
+</html>
