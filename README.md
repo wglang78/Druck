@@ -1,6 +1,6 @@
 # Druckwerkstatt
 
-Interaktive Lernseite zum Thema **Druck in Flüssigkeiten und Gasen** (Klasse 8).
+Interaktive Lernseite zum Thema **Druck in Flüssigkeiten und Gasen**.
 
 **Zur Seite:** https://wglang78.github.io/Druck/
 
