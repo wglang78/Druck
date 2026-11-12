@@ -24,3 +24,14 @@ Interaktive Lernseite zum Thema **Druck in Flüssigkeiten und Gasen** (Klasse 8)
 - Aufgabe 1: Hydraulische Fahrradbremse (a–d)
 - Aufgabe 3: Hydraulische Hebebühne (c, d)
 - Lösungen sind nur sichtbar, solange der Lösungs-Button gedrückt gehalten wird
+
+**Schweredruck**
+- Grundideen, Formel p = ρ · g · h, Faustregel 10 m ≈ 1 bar, Lernvideo
+- Station 5: Zylinder mit Ausläufen · Station 6: Bodendruck und Gefäßform
+- Lückentext mit den Merksätzen, Aufgaben 1–5 (Benzin-Diagramm, Marianengraben, Gasblase, Tauchen)
+
+**Auftrieb**
+- Grundideen, archimedisches Prinzip F_A = ρ · V · g, Sinken/Schweben/Schwimmen, Lernvideo
+- Station 7: Auftrieb mit Kraftmesser messen (Messwerttabelle V1/V2) · Station 8: Schwimmen und Sinken
+- Lückentext mit den Merksätzen, Aufgaben 1–8 inkl. „Archimedes als Detektiv“
+- Rechenergebnisse werden auch auf gültige Ziffern geprüft

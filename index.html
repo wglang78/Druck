@@ -124,6 +124,10 @@ button.primary{background:var(--accent);color:var(--surface);border-color:var(--
 
 /* Hydraulik */
 nav{flex-wrap:wrap}
+header .wrap{flex-direction:column;align-items:flex-start;gap:10px}
+header nav{max-width:100%;flex-wrap:wrap}
+header nav a{white-space:nowrap}
+@media (max-width:560px){header nav a{padding:8px 11px;font-size:.95rem}}
 .ideas{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
 .idea{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:10px;align-content:start}
 .idea .nr{font-family:var(--f-display);font-weight:800;width:2rem;height:2rem;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--surface)}
@@ -168,6 +172,34 @@ details.box summary{cursor:pointer;font-weight:700}
 .mc label.no{border-color:var(--bad);background:var(--bad-soft)}
 .hold{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none}
 .hold.down{background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}
+
+/* Schweredruck & Auftrieb */
+.video{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:grid;gap:12px}
+.vhead{display:flex;gap:14px;align-items:center}
+.vhead .sub{color:var(--muted);font-size:.85rem}
+.vicon{width:46px;height:46px;flex:none;border-radius:12px;background:var(--gauge);color:#fff;display:grid;place-items:center;font-size:1.2rem}
+.vframe{position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000}
+.vframe iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vlink{font-weight:700;color:var(--accent)}
+ul.cloze{margin:0;padding-left:1.2em;display:grid;gap:12px;line-height:2.1}
+select.gap{font:inherit;font-size:.95rem;padding:2px 6px;border-radius:6px;border:2px solid var(--line);background:var(--bg);color:var(--ink);max-width:100%}
+select.gap.ok{border-color:var(--ok);background:var(--ok-soft)}
+select.gap.no{border-color:var(--bad);background:var(--bad-soft)}
+.tf{display:grid;gap:8px}
+.tfrow{display:grid;grid-template-columns:1fr auto;gap:6px 14px;align-items:center;padding:10px 12px;border-radius:10px;border:2px solid var(--line);background:var(--bg)}
+.tfrow.ok{border-color:var(--ok);background:var(--ok-soft)}
+.tfrow.no{border-color:var(--bad);background:var(--bad-soft)}
+.tfrow small{grid-column:1/-1;color:var(--muted)}
+.tfbtns{display:flex;gap:12px}
+.tfbtns label{display:flex;gap:5px;align-items:center;cursor:pointer}
+@media (max-width:560px){.tfrow{grid-template-columns:1fr}}
+table.cmpt,table.mtab{border-collapse:collapse;width:100%;font-size:.93rem}
+table.cmpt th,table.cmpt td,table.mtab th,table.mtab td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+table.mtab td:nth-child(n+3){font-family:var(--f-mono);text-align:center;min-width:5.5em}
+table.mtab th{font-family:var(--f-display)}
+table.mtab small{color:var(--muted)}
+.story{background:var(--warn-soft)}
+.task .ans + div:empty{display:none}
 .mc label small{display:block;color:var(--muted);margin-top:2px}
 </style>
 
@@ -181,6 +213,8 @@ details.box summary{cursor:pointer;font-weight:700}
       <a href="#modell" id="nav-modell">Modell</a>
       <a href="#ueben" id="nav-ueben">Umrechnen üben</a>
       <a href="#hydraulik" id="nav-hydraulik">Hydraulik</a>
+      <a href="#schweredruck" id="nav-schweredruck">Schweredruck</a>
+      <a href="#auftrieb" id="nav-auftrieb">Auftrieb</a>
     </nav>
   </div>
 </header>
@@ -588,12 +622,327 @@ details.box summary{cursor:pointer;font-weight:700}
     </dl></div>
   </div>
 </div></section>
+
+<!-- ===== SCHWEREDRUCK ===== -->
+<section id="view-schweredruck" hidden><div class="wrap">
+  <div>
+    <div class="eyebrow">Schweredruck in Flüssigkeiten</div>
+    <h2>Warum drückt es in den Ohren, wenn man tief taucht?</h2>
+    <p class="lead">Über dir liegt beim Tauchen eine ganze Säule aus Wasser. Ihr Gewicht drückt auf alles, was darunter ist. Diesen Druck nennt man <b>Schweredruck</b>. Je tiefer du tauchst, desto höher ist die Wassersäule über dir und desto größer wird der Druck.</p>
+  </div>
+
+  <div class="video" data-yt="q6-Y_jOX6S4" data-title="Schweredruck in Flüssigkeiten einfach erklärt" data-src="Learning Level Up"></div>
+
+  <div class="ideas">
+    <div class="idea">
+      <div class="nr">1</div>
+      <h3>Das Gewicht der Wassersäule</h3>
+      <svg viewBox="0 0 240 120" aria-label="Wassersäule über einer Fläche in der Tiefe h">
+        <rect x="20" y="14" width="200" height="96" fill="var(--water)" opacity=".35"/>
+        <rect x="95" y="14" width="50" height="70" fill="var(--gauge)" opacity=".35"/>
+        <path d="M95 84 H145" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M120 30 V74" stroke="var(--gauge)" stroke-width="4"/><path d="M120 82 l-7 -10 h14z" fill="var(--gauge)"/>
+        <path d="M170 14 V84" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text x="176" y="54" font-size="13" font-weight="700" fill="var(--ink)">h</text>
+        <text x="152" y="100" font-size="11" fill="var(--muted)">Fläche A</text>
+        <text x="40" y="34" font-size="11" fill="var(--muted)">Wasser­säule</text>
+      </svg>
+      <p>Die Wassersäule über einer Fläche hat eine Gewichtskraft. Diese Kraft verteilt sich auf die Fläche darunter. Das ist der Schweredruck. Je höher die Säule, desto größer der Druck.</p>
+    </div>
+    <div class="idea">
+      <div class="nr">2</div>
+      <h3>Er wirkt nach allen Seiten</h3>
+      <svg viewBox="0 0 240 120" aria-label="Ein Würfel im Wasser, Druckpfeile von allen Seiten, unten länger als oben">
+        <rect x="10" y="6" width="220" height="108" fill="var(--water)" opacity=".3"/>
+        <rect x="95" y="40" width="50" height="44" fill="var(--ink)" opacity=".8"/>
+        <g fill="var(--gauge)" stroke="var(--gauge)" stroke-width="3">
+          <path d="M120 18 V34"/><path d="M120 38 l-5 -7 h10z"/>
+          <path d="M120 112 V90"/><path d="M120 86 l-5 7 h10z"/>
+          <path d="M66 62 H88"/><path d="M92 62 l-7 -5 v10z"/>
+          <path d="M174 62 H152"/><path d="M148 62 l7 -5 v10z"/>
+        </g>
+        <text x="128" y="26" font-size="10.5" fill="var(--gauge)">kleiner</text>
+        <text x="128" y="110" font-size="10.5" fill="var(--gauge)">größer</text>
+      </svg>
+      <p>Wasser drückt nicht nur von oben, sondern <b>von allen Seiten</b>, sogar von unten. An der Unterseite eines Körpers ist der Druck größer als oben, weil sie tiefer liegt. Das ist später die Ursache für den Auftrieb.</p>
+    </div>
+    <div class="idea">
+      <div class="nr">3</div>
+      <h3>Nur die Tiefe zählt, nicht die Form</h3>
+      <svg viewBox="0 0 240 120" aria-label="Drei unterschiedlich geformte Gefäße, gleich hoch gefüllt, gleicher Bodendruck">
+        <g fill="var(--water)" opacity=".45">
+          <rect x="20" y="30" width="40" height="70"/>
+          <path d="M90 30 H160 L135 100 H115Z"/>
+          <path d="M195 30 H210 V70 L225 100 H180 L195 70Z"/>
+        </g>
+        <g fill="none" stroke="var(--muted)" stroke-width="2"><path d="M20 20 V100 H60 V20"/><path d="M84 20 L115 100 H135 L166 20"/><path d="M195 20 V70 L180 100 H225 L210 70 V20"/></g>
+        <path d="M10 30 H232" stroke="var(--accent)" stroke-dasharray="5 4"/>
+        <text x="120" y="116" text-anchor="middle" font-size="11" fill="var(--gauge)" font-weight="700">überall gleicher Druck am Boden</text>
+      </svg>
+      <p>Der Schweredruck hängt nur von der <b>Tiefe</b> ab, nicht davon, wie viel Wasser im Gefäß ist oder welche Form es hat. Das überrascht viele und heißt <i>hydrostatisches Paradoxon</i>.</p>
+    </div>
+  </div>
+
+  <div class="formula" aria-label="Formel: Schweredruck gleich Dichte mal Ortsfaktor mal Tiefe">
+    <div class="chain"><span class="p">p<sub>s</sub></span><span>=</span><span><span class="a">ρ</span> · <span class="f">g</span> · h</span>
+      <small><b>ρ</b> Dichte der Flüssigkeit in kg/m³ · <b>g</b> Ortsfaktor 9,81 N/kg · <b>h</b> Tiefe in m</small></div>
+    <div class="legend" style="flex:1 1 280px">
+      <div class="note" style="margin:0"><b>Faustregel für Wasser:</b> Alle 10 m Tiefe kommt etwa <b>1 bar</b> dazu.<br>Rechnung: 1000 kg/m³ · 9,81 N/kg · 10 m = 98 100 Pa ≈ 1 bar</div>
+      <div class="hint" style="margin:0"><b>Gesamtdruck unter Wasser:</b> Auf die Wasseroberfläche drückt zusätzlich die Luft mit etwa 1 bar. In 20 m Tiefe herrscht also 1 bar + 2 bar = 3 bar.</div>
+    </div>
+  </div>
+
+  <div>
+    <div class="eyebrow">Versuche</div>
+    <h2>Einige Versuche zu Beginn</h2>
+    <p class="lead">Den ersten Versuch mit einem Druckmessgerät findest du als Simulation im Reiter <a href="#modell">Modell</a> (Station 3, U-Boot). Hier kommen die Versuche 2 und 3.</p>
+  </div>
+
+  <div class="station" id="station5">
+    <div>
+      <div class="eyebrow">Station 5 · Versuch 2: Zylinder mit Ausläufen</div>
+      <canvas id="jetCanvas" width="640" height="380" aria-label="Wassergefüllter Zylinder auf einem Ständer mit vier Ausläufen, aus denen Wasser spritzt"></canvas>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="jH">Wasserstand im Zylinder <output id="jHo"></output></label><input type="range" id="jH" min="20" max="100" value="100"></div>
+      <div class="row"><button type="button" class="primary" id="jPlug">Stopfen ziehen</button></div>
+      <div class="calc" id="jCalc"></div>
+      <p class="note"><b>Beobachte:</b> Je tiefer ein Auslauf unter der Wasseroberfläche liegt, desto größer ist dort der Schweredruck. Das Wasser wird schneller hinausgedrückt und spritzt weiter.</p>
+    </div>
+  </div>
+  <div data-task="sV2"></div>
+
+  <div class="station" id="station6">
+    <div>
+      <div class="eyebrow">Station 6 · Versuch 3: Bodendruck und Gefäßform</div>
+      <svg id="bodenSvg" viewBox="0 0 640 340" style="width:100%;height:auto;background:var(--bg);border:1px solid var(--line);border-radius:10px" aria-label="Drei unterschiedlich geformte Gefäße mit gleicher Bodenfläche und gleicher Füllhöhe, darunter je ein Druckmesser"></svg>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="bH">Füllhöhe h <output id="bHo"></output></label><input type="range" id="bH" min="0" max="30" value="20"></div>
+      <div class="ctl"><label for="bRho">Flüssigkeit</label>
+        <select id="bRho">
+          <option value="1000">Wasser (1,00 g/cm³)</option>
+          <option value="1030">Salzwasser (1,03 g/cm³)</option>
+          <option value="790">Spiritus (0,79 g/cm³)</option>
+          <option value="700">Benzin (0,70 g/cm³)</option>
+          <option value="1260">Glycerin (1,26 g/cm³)</option>
+        </select></div>
+      <div class="calc" id="bCalc"></div>
+      <p class="note"><b>Erstaunlich:</b> In den Gefäßen ist ganz unterschiedlich viel Flüssigkeit. Trotzdem zeigen alle drei Druckmesser denselben Wert. Entscheidend ist nur die Höhe der Flüssigkeit über dem Boden und ihre Dichte.</p>
+    </div>
+  </div>
+  <div data-task="sV3"></div>
+
+  <div>
+    <div class="eyebrow">Grundlegendes</div>
+    <h2>Merksätze zum Schweredruck</h2>
+    <p class="lead">Wähle in jeder Lücke das passende Wort aus und prüfe dann.</p>
+  </div>
+  <div data-cloze="sCloze"></div>
+
+  <div>
+    <div class="eyebrow">Übung macht den Meister</div>
+    <h2>Aufgaben zum Schweredruck</h2>
+    <p class="lead">Rechne mit g = 9,81 N/kg. Gib deine Ergebnisse mit der passenden Anzahl gültiger Ziffern an. Zehnerpotenzen kannst du so eingeben: <code>1,2·10^5</code>.</p>
+  </div>
+
+  <div class="task" id="sA1">
+    <h3><span class="tlabel">1</span> Schweredruck von Benzin im Diagramm</h3>
+    <p class="ctx">Im Diagramm ist für Wasser der Schweredruck p in Abhängigkeit von der Eintauchtiefe h dargestellt (rot). Ergänze den Graphen für Benzin (ρ = 0,70 g/cm³): Stelle mit dem Regler ein, welchen Druck Benzin in 8 m Tiefe erzeugt.</p>
+    <div class="twocol" style="align-items:center">
+      <canvas id="graphCanvas" width="520" height="360" aria-label="Diagramm Schweredruck p in bar gegen Tiefe h in m für Wasser und Benzin"></canvas>
+      <div class="controls">
+        <div class="ctl"><label for="gB">Benzin: Druck bei h = 8 m <output id="gBo"></output></label><input type="range" id="gB" min="0" max="1" step="0.01" value="0.2"></div>
+        <div class="row"><button type="button" class="primary" id="gCheck">Prüfen</button><button type="button" data-tip="sA1t">Tipp</button><button type="button" class="hold" data-hold="sA1Sol">Lösung (gedrückt halten)</button></div>
+        <p class="hint" id="sA1t" hidden>Benzin hat eine kleinere Dichte als Wasser (0,70 statt 1,00 g/cm³). Der Schweredruck ist deshalb in jeder Tiefe nur 0,70-mal so groß wie bei Wasser.</p>
+        <div id="gFb"></div>
+        <div class="solution" id="sA1Sol" hidden><dl>
+          <dt>Wasser</dt><dd>h = 8 m → p ≈ 0,8 bar</dd>
+          <dt>Benzin</dt><dd>p = 0,70 · 0,78 bar ≈ 0,55 bar bei 8 m</dd>
+          <dt>Graph</dt><dd style="font-family:var(--f-body)">Eine Ursprungsgerade, die flacher verläuft als die von Wasser. Sie geht durch (0 m | 0 bar) und (8 m | 0,55 bar).</dd>
+        </dl></div>
+      </div>
+    </div>
+  </div>
+
+  <div data-task="sA2"></div>
+  <div data-task="sA3"></div>
+  <div data-task="sA4"></div>
+  <div data-task="sA5"></div>
+
+  <div class="station" id="station-diver">
+    <div>
+      <div class="eyebrow">Zusatz zu Aufgabe 5 b · Tauchzeit und Tiefe</div>
+      <canvas id="diveCanvas" width="640" height="320" aria-label="Taucher in einstellbarer Tiefe, daneben die Luftmenge aus der Flasche bei diesem Druck"></canvas>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="dvH">Tauchtiefe <output id="dvHo"></output></label><input type="range" id="dvH" min="0" max="40" value="0"></div>
+      <div class="calc" id="dvCalc"></div>
+      <p class="note"><b>Boyle-Mariotte:</b> p · V = konstant. In der Tiefe ist der Umgebungsdruck größer, also wird die Luft aus der Flasche stärker zusammengedrückt. Jeder Atemzug von 25 ℓ enthält dann mehr Luft, die Flasche ist schneller leer.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- ===== AUFTRIEB ===== -->
+<section id="view-auftrieb" hidden><div class="wrap">
+  <div>
+    <div class="eyebrow">Der Auftrieb</div>
+    <h2>Warum ist im Wasser alles so leicht?</h2>
+    <p class="lead">Im Schwimmbad kannst du einen Freund mühelos hochheben, an Land schaffst du das kaum. Sein Gewicht hat sich nicht verändert. Das Wasser hilft dir aber mit: Es drückt ihn mit einer Kraft nach oben. Diese Kraft heißt <b>Auftriebskraft F<sub>A</sub></b>.</p>
+  </div>
+
+  <div class="video" data-yt="ZUWrj-nqkE4" data-title="Archimedisches Prinzip – Der Auftrieb" data-src="YouTube"></div>
+
+  <div class="ideas">
+    <div class="idea">
+      <div class="nr">1</div>
+      <h3>Scheinbar leichter</h3>
+      <svg viewBox="0 0 240 120" aria-label="Kraftmesser in Luft zeigt 2,0 N, im Wasser nur 1,5 N">
+        <g stroke="var(--muted)" stroke-width="2" fill="none"><path d="M60 6 V20"/><rect x="52" y="20" width="16" height="40" rx="3"/><path d="M60 60 V70"/><path d="M180 6 V20"/><rect x="172" y="20" width="16" height="30" rx="3"/><path d="M180 50 V70"/></g>
+        <rect x="47" y="70" width="26" height="28" fill="var(--ink)" opacity=".8"/>
+        <rect x="167" y="70" width="26" height="28" fill="var(--ink)" opacity=".8"/>
+        <rect x="140" y="62" width="80" height="54" fill="var(--water)" opacity=".4"/>
+        <text x="80" y="44" font-size="12" font-weight="700" fill="var(--ink)">2,0 N</text>
+        <text x="196" y="38" font-size="12" font-weight="700" fill="var(--ink)">1,5 N</text>
+        <text x="60" y="114" text-anchor="middle" font-size="11" fill="var(--muted)">in Luft: F<tspan font-size="8">G</tspan></text>
+        <text x="110" y="20" font-size="11" fill="var(--muted)">im Wasser: F</text>
+      </svg>
+      <p>Hängt ein Körper am Kraftmesser, zeigt dieser im Wasser weniger an. Die Gewichtskraft F<sub>G</sub> ist gleich geblieben. Der Unterschied ist die Auftriebskraft: <b>F<sub>A</sub> = F<sub>G</sub> − F</b>.</p>
+    </div>
+    <div class="idea">
+      <div class="nr">2</div>
+      <h3>Die Ursache: Schweredruck</h3>
+      <svg viewBox="0 0 240 120" aria-label="Würfel im Wasser: Druck auf die Unterseite größer als auf die Oberseite">
+        <rect x="10" y="4" width="220" height="112" fill="var(--water)" opacity=".3"/>
+        <rect x="90" y="40" width="60" height="44" fill="var(--ink)" opacity=".75"/>
+        <path d="M120 16 V32" stroke="var(--gauge)" stroke-width="3"/><path d="M120 37 l-5 -7 h10z" fill="var(--gauge)"/>
+        <path d="M120 116 V96" stroke="var(--ok)" stroke-width="6"/><path d="M120 87 l-8 11 h16z" fill="var(--ok)"/>
+        <text x="128" y="24" font-size="11" fill="var(--gauge)">F oben (kleiner)</text>
+        <text x="132" y="112" font-size="11" fill="var(--ok)">F unten (größer)</text>
+      </svg>
+      <p>Die Unterseite eines Körpers liegt tiefer als die Oberseite. Dort ist der Schweredruck größer, also auch die Kraft. Von unten wird stärker gedrückt als von oben. Was übrig bleibt, ist die Auftriebskraft nach oben.</p>
+    </div>
+    <div class="idea">
+      <div class="nr">3</div>
+      <h3>Archimedes' Prinzip</h3>
+      <svg viewBox="0 0 240 120" aria-label="Ein Stein verdrängt Wasser, das verdrängte Wasser hat dieselbe Gewichtskraft wie die Auftriebskraft">
+        <path d="M20 30 V106 H110 V30" fill="none" stroke="var(--muted)" stroke-width="2"/>
+        <rect x="21" y="48" width="88" height="57" fill="var(--water)" opacity=".4"/>
+        <rect x="21" y="58" width="88" height="10" fill="var(--water)" opacity="0"/>
+        <rect x="48" y="66" width="34" height="28" fill="var(--ink)" opacity=".8"/>
+        <path d="M21 58 H109" stroke="var(--water-deep)" stroke-dasharray="3 3"/>
+        <path d="M130 70 H160" stroke="var(--muted)" stroke-width="2"/><path d="M166 70 l-8 -5 v10z" fill="var(--muted)"/>
+        <rect x="178" y="58" width="40" height="28" fill="var(--water)" opacity=".7"/>
+        <text x="198" y="104" text-anchor="middle" font-size="11" fill="var(--muted)">verdrängtes</text>
+        <text x="198" y="116" text-anchor="middle" font-size="11" fill="var(--muted)">Wasser</text>
+      </svg>
+      <p>Ein Körper verdrängt beim Eintauchen Wasser. Die Auftriebskraft ist <b>genauso groß wie die Gewichtskraft des verdrängten Wassers</b>. Ein großer Körper verdrängt viel Wasser und erfährt viel Auftrieb, egal woraus er besteht.</p>
+    </div>
+  </div>
+
+  <div class="formula" aria-label="Formel: Auftriebskraft gleich Dichte der Flüssigkeit mal Volumen mal g">
+    <div class="chain"><span class="f">F<sub>A</sub></span><span>=</span><span><span class="a">ρ<sub>Fl</sub></span> · <span class="p">V</span> · g</span>
+      <small><b>ρ<sub>Fl</sub></b> Dichte der Flüssigkeit (Wasser: 1,00 g/cm³ = 1,00 kg/dm³) · <b>V</b> eingetauchtes Volumen · <b>g</b> = 9,81 N/kg</small></div>
+    <div class="legend" style="flex:1 1 300px">
+      <table class="cmpt">
+        <tr><th>Vergleich der Kräfte</th><th>Vergleich der Dichten</th><th>Der Körper …</th></tr>
+        <tr><td>F<sub>G</sub> &gt; F<sub>A</sub></td><td>ρ<sub>K</sub> &gt; ρ<sub>Fl</sub></td><td><b>sinkt</b></td></tr>
+        <tr><td>F<sub>G</sub> = F<sub>A</sub></td><td>ρ<sub>K</sub> = ρ<sub>Fl</sub></td><td><b>schwebt</b></td></tr>
+        <tr><td>F<sub>G</sub> &lt; F<sub>A</sub></td><td>ρ<sub>K</sub> &lt; ρ<sub>Fl</sub></td><td><b>steigt auf</b> und <b>schwimmt</b></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div>
+    <div class="eyebrow">Experimentieren wie die Profis</div>
+    <h2>Versuch 1 und 2: Kraftmesser und Messbecher</h2>
+    <p class="lead">Drei Zylinder aus Aluminium, Eisen und Messing haben dasselbe Volumen (25 cm³). Tauche sie ganz ein, ohne dass sie den Boden berühren, und übernimm die Messwerte in die Tabelle. Rechne wie auf dem Arbeitsblatt mit <b>g = 10 N/kg</b>.</p>
+  </div>
+
+  <div class="station" id="station7">
+    <div>
+      <div class="eyebrow">Station 7 · Auftrieb messen</div>
+      <canvas id="kmCanvas" width="640" height="400" aria-label="Kraftmesser mit Metallzylinder über einem Messbecher"></canvas>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="kMat">Zylinder</label>
+        <select id="kMat"><option value="2.7">Aluminium (2,7 g/cm³)</option><option value="7.9">Eisen (7,9 g/cm³)</option><option value="8.5">Messing (8,5 g/cm³)</option></select></div>
+      <div class="ctl"><label for="kLiq">Flüssigkeit</label>
+        <select id="kLiq"><option value="1.00">Wasser (1,00 g/cm³)</option><option value="0.79">Spiritus (0,79 g/cm³)</option></select></div>
+      <div class="ctl"><label for="kDip">Zylinder absenken <output id="kDipo"></output></label><input type="range" id="kDip" min="0" max="100" value="0"></div>
+      <div class="readout"><div><div class="sub">Kraftmesser zeigt</div><div class="num" id="kF">–</div><div class="sub" id="kInfo"></div></div></div>
+      <div class="row"><button type="button" class="primary" id="kTake">Messwerte übernehmen</button></div>
+      <p class="note" id="kNote"></p>
+    </div>
+  </div>
+
+  <div class="task">
+    <h3><span class="tlabel">V1</span> Messwerte</h3>
+    <div style="overflow-x:auto"><table class="mtab" id="mTab"></table></div>
+    <div class="row"><button type="button" id="mClear">Tabelle leeren</button><button type="button" class="hold" data-hold="v1Sol">Ergebnis (gedrückt halten)</button></div>
+    <p class="ctx" id="mHint">Für jeden Zylinder: auswählen, ganz eintauchen, „Messwerte übernehmen“.</p>
+    <p class="solution" id="v1Sol" hidden><b>Ergebnis:</b> Alle drei Zylinder werden im Wasser um denselben Betrag leichter (0,25 N), obwohl sie unterschiedlich schwer sind. Die Differenz ΔF ist genauso groß wie die Gewichtskraft des verdrängten Wassers (25 ml → 25 g → 0,25 N). Die Auftriebskraft hängt also nicht vom Material des Körpers ab, sondern von seinem Volumen.</p>
+  </div>
+  <div class="task">
+    <h3><span class="tlabel">V2</span> Messing in Spiritus</h3>
+    <p class="ctx">Bestimme die Differenz aus tatsächlicher Gewichtskraft F<sub>G</sub> und scheinbarer Gewichtskraft F des Messingzylinders in Spiritus und vergleiche mit dem Ergebnis aus V1. Stelle dazu oben „Spiritus“ ein.</p>
+    <div class="row"><button type="button" class="hold" data-hold="v2Sol">Ergebnis (gedrückt halten)</button></div>
+    <p class="solution" id="v2Sol" hidden><b>Ergebnis:</b> In Spiritus ist die Differenz kleiner: etwa 0,20 N statt 0,25 N. Spiritus hat eine kleinere Dichte als Wasser (0,79 g/cm³). Das verdrängte Spiritus-Volumen ist gleich groß, wiegt aber weniger (25 ml · 0,79 g/ml ≈ 20 g → 0,20 N). Die Auftriebskraft hängt also von der Dichte der Flüssigkeit ab.</p>
+  </div>
+
+  <div>
+    <div class="eyebrow">Grundlegendes</div>
+    <h2>Merksätze zum Auftrieb</h2>
+    <p class="lead">Wähle in jeder Lücke das passende Wort aus und prüfe dann.</p>
+  </div>
+  <div data-cloze="aCloze"></div>
+
+  <div class="station" id="station8">
+    <div>
+      <div class="eyebrow">Station 8 · Sinken, Schweben, Steigen, Schwimmen</div>
+      <canvas id="swCanvas" width="640" height="380" aria-label="Becken mit einem Körper, Pfeile für Gewichtskraft und Auftriebskraft"></canvas>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="swRho"><span>Dichte des Körpers ρ<sub>K</sub></span> <output id="swRhoo"></output></label><input type="range" id="swRho" min="0.1" max="3" step="0.01" value="0.6"></div>
+      <div class="presets"><button type="button" data-r="0.25">Kork</button><button type="button" data-r="0.6">Holz</button><button type="button" data-r="0.92">Eis</button><button type="button" data-r="1">Dichte = Wasser</button><button type="button" data-r="2.7">Aluminium</button></div>
+      <div class="ctl"><label for="swLiq">Flüssigkeit</label>
+        <select id="swLiq"><option value="1.00">Süßwasser (1,00 g/cm³)</option><option value="1.20">Totes Meer (1,20 g/cm³)</option><option value="0.79">Spiritus (0,79 g/cm³)</option></select></div>
+      <div class="row"><button type="button" id="swDrop">Körper loslassen (unter Wasser)</button></div>
+      <div class="calc" id="swCalc"></div>
+      <p class="note" id="swNote"></p>
+    </div>
+  </div>
+
+  <div>
+    <div class="eyebrow">Übung macht den Meister</div>
+    <h2>Aufgaben zum Auftrieb</h2>
+    <p class="lead">Rechne mit g = 9,81 N/kg (g = 10 N/kg wird auch akzeptiert) und ρ<sub>Wasser</sub> = 1,00 g/cm³. Achte auf die gültigen Ziffern.</p>
+  </div>
+  <div data-task="aA1"></div>
+  <div data-task="aA2"></div>
+  <div data-task="aA3"></div>
+  <div data-task="aA4"></div>
+  <div data-task="aA5"></div>
+  <div data-task="aA6"></div>
+
+  <div>
+    <div class="eyebrow">Archimedes als Detektiv</div>
+    <h2>Die Krone des Königs</h2>
+  </div>
+  <div class="plan story">
+    <p style="margin:0">König Hieron von Syrakus ließ sich aus einem Goldbarren eine Krone schmieden. Die fertige Krone war genauso schwer wie der Barren. Trotzdem hatte der König einen Verdacht: Hatte der Goldschmied einen Teil des Goldes gegen billigeres Silber ausgetauscht? Archimedes sollte das klären, ohne die Krone zu beschädigen. Die Idee kam ihm der Legende nach in der Badewanne („Heureka – ich hab's gefunden!“).</p>
+    <p style="margin:0">Er hängte Krone und Barren an eine Balkenwaage. In Luft war sie im Gleichgewicht. Als er beide unter Wasser tauchte, senkte sich die Seite mit dem Barren. Die Krone erfuhr also mehr Auftrieb. Der Goldschmied hatte betrogen.</p>
+    <p style="margin:0;color:var(--muted)">Daten: Goldbarren m = 500 g, V = 26 cm³ · Goldkrone m = 500 g, am Kraftmesser unter Wasser F = 2,2 N</p>
+  </div>
+  <div data-task="aA7"></div>
+  <div data-task="aA8"></div>
+</div></section>
 </main>
 
 <script>
 (() => {
 /* ---------- Routing ---------- */
-const views = {modell: document.getElementById('view-modell'), ueben: document.getElementById('view-ueben'), hydraulik: document.getElementById('view-hydraulik')};
+const views = {modell: document.getElementById('view-modell'), ueben: document.getElementById('view-ueben'), hydraulik: document.getElementById('view-hydraulik'), schweredruck: document.getElementById('view-schweredruck'), auftrieb: document.getElementById('view-auftrieb')};
 function route(){
   const h = location.hash.replace('#','');
   const v = views[h] ? h : 'modell';
@@ -603,7 +952,7 @@ function route(){
     if (k===v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
   }
 }
-addEventListener('hashchange', route); route();
+addEventListener('hashchange', () => { route(); scrollTo(0,0); }); route();
 
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const de = (x, d=6) => x.toLocaleString('de-DE', {maximumFractionDigits:d});
@@ -796,6 +1145,7 @@ function mix(c1, c2, t){
 }
 function drawLiq(now){
   const W = lc._w, H = lc._h;
+  if (!(W > 40)) return;
   const top = 30, bottom = H-10, left = 10, right = W-10;
   const pad0 = 46, padB = 78;
   const yOf = m => top + pad0 + (bottom-top-pad0-padB)*m/DMAX;
@@ -1522,6 +1872,683 @@ $('d3Form').addEventListener('submit', e => {
   else if (near(v,93.3,0.02)||near(v,93,0.0001)) msg = '93 ist das Flächenverhältnis A₂ : A₁. Rechne mit den Volumina: n = V₂ : V₁.';
   fb.innerHTML = `<p class="fb bad"><strong>Noch nicht.</strong> ${msg}</p>`;
 });
+})();
+</script>
+
+<script>
+
+/* ===== Schweredruck und Auftrieb ===== */
+(() => {
+const $ = id => document.getElementById(id);
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const de = (x, d=2) => x.toLocaleString('de-DE', {maximumFractionDigits:d});
+function parseNum(s){
+  s = String(s).trim().replace(/\s| | /g,'');
+  if (!s) return NaN;
+  if (s.includes(',')) s = s.replace(/\./g,'').replace(',', '.');
+  else if (/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g,'');
+  return Number(s);
+}
+function parseSci(str){
+  let t = String(str).trim();
+  const sup = {'⁰':'0','¹':'1','²':'2','³':'3','⁴':'4','⁵':'5','⁶':'6','⁷':'7','⁸':'8','⁹':'9','⁻':'-'};
+  t = t.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻]/g, ch => sup[ch]);
+  const m = t.match(/^(.+?)\s*[·×xX*⋅]\s*10\s*\^?\s*(-?\d+)$/);
+  if (m) return parseNum(m[1]) * Math.pow(10, +m[2]);
+  const e = t.replace(',', '.').match(/^(-?\d+(\.\d+)?)e(-?\d+)$/i);
+  if (e) return Number(e[1]) * Math.pow(10, +e[3]);
+  return parseNum(t);
+}
+function sigDigits(str){
+  let t = String(str).trim().replace(/\s/g,'');
+  const m = t.match(/^(.+?)[·×xX*⋅]10/); if (m) t = m[1];
+  t = t.replace(/e.*$/i,'').replace(/^[-+]/,'').replace(/^[0,\.]+/,'');
+  return t.replace(/[,\.]/g,'').length;
+}
+const near = (x, y, tol=0.01) => Math.abs(x-y) <= tol*Math.max(Math.abs(y), 1e-12);
+const roundSig = (x, n) => Number((x*(1+1e-12)).toPrecision(n));
+const mixc = (c1, c2, t) => {
+  const h = c => { c = c.replace('#',''); return [0,2,4].map(i => parseInt(c.substr(i,2),16)); };
+  try { const a = h(c1), b = h(c2); return 'rgb('+a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join(',')+')'; } catch(e){ return c2; }
+};
+function fmtSci(x, n){
+  const r = roundSig(x, n);
+  const ex = Math.floor(Math.log10(Math.abs(r)));
+  if (ex >= -2 && ex < n) return de(r, 6);
+  const sup = String(ex).split('').map(c => '⁰¹²³⁴⁵⁶⁷⁸⁹'['0123456789'.indexOf(c)] || '⁻').join('');
+  return (r/Math.pow(10,ex)).toLocaleString('de-DE',{minimumFractionDigits:n-1,maximumFractionDigits:n-1}) + ' · 10' + sup;
+}
+
+/* --- gedrückt halten für Lösungen, Tipps --- */
+function bindHold(root){
+  root.querySelectorAll('[data-hold]').forEach(b => {
+    if (b.dataset.bound) return; b.dataset.bound = 1;
+    const box = $(b.dataset.hold);
+    const show = e => { if (e.button > 0) return; e.preventDefault(); box.hidden = false; b.classList.add('down'); try { b.setPointerCapture(e.pointerId); } catch(_){} };
+    const hide = () => { box.hidden = true; b.classList.remove('down'); };
+    b.addEventListener('pointerdown', show);
+    ['pointerup','pointercancel','lostpointercapture','blur'].forEach(t => b.addEventListener(t, hide));
+    b.addEventListener('keydown', e => { if (e.key===' '||e.key==='Enter'){ e.preventDefault(); box.hidden = false; b.classList.add('down'); } });
+    b.addEventListener('keyup', e => { if (e.key===' '||e.key==='Enter') hide(); });
+    b.addEventListener('contextmenu', e => e.preventDefault());
+  });
+  root.querySelectorAll('[data-tip]').forEach(b => { if (b.dataset.tbound) return; b.dataset.tbound = 1; b.addEventListener('click', () => { $(b.dataset.tip).hidden = false; }); });
+}
+
+/* --- Videos --- */
+document.querySelectorAll('.video[data-yt]').forEach(v => {
+  const id = v.dataset.yt, url = 'https://www.youtube.com/watch?v='+id;
+  const embed = /github\.io$/.test(location.hostname);
+  v.innerHTML = `<div class="vhead"><span class="vicon" aria-hidden="true">▶</span><div><div class="eyebrow">Lernvideo</div><b>${v.dataset.title}</b><div class="sub">${v.dataset.src}</div></div></div>` +
+    (embed ? `<div class="vframe"><iframe src="https://www.youtube-nocookie.com/embed/${id}" title="${v.dataset.title}" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div>` : '') +
+    `<a class="vlink" href="${url}" target="_blank" rel="noopener">Video auf YouTube ansehen ↗</a>`;
+});
+
+/* --- Lückentext --- */
+function buildCloze(el, title, items){
+  const id = el.dataset.cloze;
+  let n = 0;
+  const html = items.map(t => '<li>' + t.replace(/\{([^}]+)\}/g, (_, g) => {
+    const opts = g.split('|'), ans = opts[0];
+    const sorted = opts.slice().sort((a,b) => a.localeCompare(b,'de'));
+    return `<select class="gap" data-a="${ans}" aria-label="Lücke ${++n}"><option value="">…</option>${sorted.map(o => `<option>${o}</option>`).join('')}</select>`;
+  }) + '</li>').join('');
+  const sol = items.map(t => '<li>' + t.replace(/\{([^}|]+)[^}]*\}/g, '<b>$1</b>') + '</li>').join('');
+  el.className = 'task';
+  el.innerHTML = `<h3>${title}</h3><ul class="cloze">${html}</ul>
+    <div class="row"><button type="button" class="primary" data-ck>Prüfen</button><button type="button" class="hold" data-hold="${id}Sol">Lösung (gedrückt halten)</button></div>
+    <div data-fb></div><div class="solution" id="${id}Sol" hidden><ul class="cloze">${sol}</ul></div>`;
+  el.querySelector('[data-ck]').onclick = () => {
+    let r = 0, all = 0;
+    el.querySelectorAll('select.gap').forEach(s => { all++; const ok = s.value === s.dataset.a; if (ok) r++; s.classList.toggle('ok', ok); s.classList.toggle('no', !ok); });
+    el.querySelector('[data-fb]').innerHTML = r === all ? `<p class="fb ok"><strong>Alles richtig!</strong> Schreibe die Merksätze in dein Heft.</p>` : `<p class="fb bad"><strong>${r} von ${all} Lücken richtig.</strong> Die rot markierten Lücken stimmen noch nicht.</p>`;
+  };
+  el.querySelectorAll('select.gap').forEach(s => s.addEventListener('change', () => s.classList.remove('ok','no')));
+  bindHold(el);
+}
+
+/* --- Aufgaben-Bausteine --- */
+let uid = 0;
+function numPart(P){
+  const i = 'np'+(++uid);
+  const units = P.units || {[P.unit]:1};
+  const keys = Object.keys(units);
+  const html = `<form class="ans" data-np="${i}" autocomplete="off"><span>${P.lbl}</span><input type="text" inputmode="decimal" aria-label="${P.aria||'Ergebnis'}">` +
+    (keys.length > 1 ? `<select aria-label="Einheit">${keys.map(k=>`<option>${k}</option>`).join('')}</select>` : `<span>${keys[0]}</span>`) +
+    `<button class="primary" type="submit">Prüfen</button></form><div data-npfb="${i}"></div>`;
+  return {html, bind(root){
+    const f = root.querySelector(`[data-np="${i}"]`), fb = root.querySelector(`[data-npfb="${i}"]`);
+    f.addEventListener('submit', e => {
+      e.preventDefault();
+      const raw = f.querySelector('input').value, sel = f.querySelector('select');
+      let v = parseSci(raw);
+      if (isNaN(v)){ fb.innerHTML = '<p class="fb bad">Gib eine Zahl ein, zum Beispiel <b>2,5</b> oder <b>1,2·10^3</b>.</p>'; return; }
+      v *= units[sel ? sel.value : keys[0]];
+      const [cls, msg] = judge(raw, v, P);
+      fb.innerHTML = `<p class="fb ${cls==='ok'?'ok':'bad'}"${cls==='warn'?' style="background:var(--warn-soft)"':''}>${msg}</p>`;
+    });
+  }};
+}
+function judge(raw, v, P){
+  const d = sigDigits(raw), cs = [P.c, P.c2].filter(x => x != null);
+  if (d === P.sig && cs.some(c => near(v, roundSig(c, P.sig), 1e-6))) return ['ok', `<strong>Richtig!</strong> ${P.show}`];
+  for (const [val, dd] of (P.alsoOk||[])) if (d === dd && near(v, val, 1e-6)) return ['ok', `<strong>Richtig!</strong> ${P.show}${P.alsoMsg ? ' '+P.alsoMsg : ''}`];
+  if (cs.some(c => near(v, c, 0.03))){
+    if (d > P.sig) return ['warn', `<strong>Richtig gerechnet, aber zu genau!</strong> Dein Ergebnis hat ${d} gültige Ziffern. Die Angaben erlauben nur ${P.sig}. ${P.why||''}`];
+    if (d < P.sig) return ['warn', `<strong>Fast!</strong> Du hast zu stark gerundet. Gib ${P.sig} gültige Ziffern an.`];
+    return ['warn', '<strong>Fast!</strong> Prüfe das Runden in der letzten Stelle.'];
+  }
+  for (const [val, msg] of (P.diag||[])) if (near(v, val, 0.03)) return ['bad', `<strong>Noch nicht.</strong> ${msg}`];
+  return ['bad', '<strong>Noch nicht.</strong> Prüfe deine Rechnung und die Einheiten. Hol dir einen Tipp, wenn du nicht weiterkommst.'];
+}
+function mcPart(M){
+  const i = 'mc'+(++uid);
+  const type = M.multi ? 'checkbox' : 'radio';
+  const html = `${M.q ? `<p class="ctx">${M.q}</p>` : ''}<div class="mc" data-mc="${i}">${M.opts.map(([t],k) => `<label><input type="${type}" name="${i}" value="${k}"><span>${t}<small hidden></small></span></label>`).join('')}</div>
+    <div class="row"><button type="button" class="primary" data-mcck="${i}">Prüfen</button></div><div data-mcfb="${i}"></div>`;
+  return {html, bind(root){
+    const box = root.querySelector(`[data-mc="${i}"]`);
+    root.querySelector(`[data-mcck="${i}"]`).onclick = () => {
+      const labs = box.querySelectorAll('label'); let right = 0, any = false;
+      labs.forEach((lab,k) => {
+        const on = lab.querySelector('input').checked, good = on === M.opts[k][1]; if (on) any = true; if (good) right++;
+        const show = on || (M.multi && !good);
+        lab.className = show ? (good ? 'ok' : 'no') : '';
+        const sm = lab.querySelector('small'); sm.hidden = !show || !M.opts[k][2];
+        sm.textContent = (M.multi && !on && !good ? 'Diese Aussage gehört auch dazu. ' : '') + (M.opts[k][2]||'');
+      });
+      const fb = root.querySelector(`[data-mcfb="${i}"]`);
+      if (!any){ fb.innerHTML = '<p class="fb bad">Wähle zuerst eine Antwort aus.</p>'; return; }
+      fb.innerHTML = right === labs.length ? '<p class="fb ok"><strong>Richtig!</strong></p>' : `<p class="fb bad"><strong>Noch nicht ganz.</strong> ${M.multi ? 'Lies die Erklärungen bei den markierten Aussagen.' : 'Lies die Erklärung und versuche es noch einmal.'}</p>`;
+    };
+    box.addEventListener('change', () => { box.querySelectorAll('label').forEach(l => { l.className=''; l.querySelector('small').hidden = true; }); });
+  }};
+}
+function textPart(T){
+  const i = 'tx'+(++uid);
+  const html = `<textarea data-tx="${i}" aria-label="Deine Antwort" placeholder="${T.ph||'Deine Antwort …'}"></textarea>` +
+    (T.kw ? `<ul class="kw" data-kw="${i}"></ul>` : '');
+  return {html, bind(root){
+    if (!T.kw) return;
+    const ta = root.querySelector(`[data-tx="${i}"]`), ul = root.querySelector(`[data-kw="${i}"]`);
+    const upd = () => { ul.innerHTML = T.kw.map(([n,re]) => `<li class="${re.test(ta.value)?'ok':''}">${n}</li>`).join(''); };
+    ta.addEventListener('input', upd); upd();
+  }};
+}
+function tfPart(F){
+  const i = 'tf'+(++uid);
+  const html = `<div class="tf" data-tf="${i}">${F.items.map(([t],k) => `<div class="tfrow"><span class="tftext"><b>${'abcdefgh'[k]})</b> ${t}</span><span class="tfbtns"><label><input type="radio" name="${i}${k}" value="1"> wahr</label><label><input type="radio" name="${i}${k}" value="0"> falsch</label></span><small hidden></small></div>`).join('')}</div>
+    <div class="row"><button type="button" class="primary" data-tfck="${i}">Prüfen</button></div><div data-tffb="${i}"></div>`;
+  return {html, bind(root){
+    root.querySelector(`[data-tfck="${i}"]`).onclick = () => {
+      let r = 0;
+      root.querySelectorAll(`[data-tf="${i}"] .tfrow`).forEach((row,k) => {
+        const c = row.querySelector('input:checked'); const ok = c && (c.value==='1') === F.items[k][1];
+        if (ok) r++;
+        row.className = 'tfrow ' + (c ? (ok ? 'ok' : 'no') : '');
+        const sm = row.querySelector('small'); sm.hidden = !c; sm.innerHTML = c ? (ok ? (F.items[k][1] ? 'Richtig, die Aussage stimmt.' : 'Richtig erkannt. Halte „Lösung“ gedrückt für die Korrektur.') : 'Überlege noch einmal.') : '';
+      });
+      root.querySelector(`[data-tffb="${i}"]`).innerHTML = r === F.items.length ? '<p class="fb ok"><strong>Alles richtig!</strong> Korrigiere die falschen Aussagen in deinem Heft.</p>' : `<p class="fb bad"><strong>${r} von ${F.items.length} richtig.</strong></p>`;
+    };
+  }};
+}
+function sideMount(el, T){
+  const parts = T.parts.map(p => p.kind==='num' ? numPart(p) : p.kind==='mc' ? mcPart(p) : p.kind==='tf' ? tfPart(p) : p.kind==='text' ? textPart(p) : {html:p.html||'', bind(){}});
+  const tips = (T.tips||[]).map((t,k) => ({id: el.dataset.task+'t'+k, t}));
+  const sid = el.dataset.task + 'Sol';
+  el.className = 'task'; el.id = el.dataset.task;
+  el.innerHTML = `<h3><span class="tlabel">${T.label}</span> ${T.title}</h3>${T.prompt ? `<p class="ctx">${T.prompt}</p>` : ''}${parts.map(p => p.html).join('')}
+    <div class="row">${tips.map((t,k) => `<button type="button" data-tip="${t.id}">Tipp${tips.length>1?' '+(k+1):''}</button>`).join('')}${T.sol ? `<button type="button" class="hold" data-hold="${sid}">${T.solLabel||'Lösung'} (gedrückt halten)</button>` : ''}</div>
+    ${tips.map(t => `<p class="hint" id="${t.id}" hidden>${t.t}</p>`).join('')}
+    ${T.sol ? `<div class="solution" id="${sid}" hidden>${Array.isArray(T.sol) ? '<dl>'+T.sol.map(([a,b]) => `<dt>${a}</dt><dd>${b}</dd>`).join('')+'</dl>' : T.sol}</div>` : ''}`;
+  parts.forEach(p => p.bind(el));
+  bindHold(el);
+}
+function mountTasks(defs){ for (const [k,T] of Object.entries(defs)){ const el = document.querySelector(`[data-task="${k}"]`); if (el) sideMount(el, T); } }
+
+/* --- Canvas-Helfer --- */
+function stage(id, LW, LH){
+  const c = $(id), ctx = c.getContext('2d');
+  const fit = () => { const w = c.clientWidth; if (!w) return; const dpr = devicePixelRatio||1; c.width = Math.round(w*dpr); c.height = Math.round(w*LH/LW*dpr); c.style.height = (w*LH/LW)+'px'; c._s = w/LW*dpr; };
+  new ResizeObserver(fit).observe(c); fit();
+  return {c, ctx, begin(){ if (!c._s) return false; ctx.setTransform(c._s,0,0,c._s,0,0); ctx.clearRect(0,0,LW,LH); return true; }};
+}
+function arrow(ctx,x1,y1,x2,y2,w,col){
+  ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = w;
+  const a = Math.atan2(y2-y1,x2-x1), hl = Math.max(9,w*2.4);
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2-Math.cos(a)*hl*.8,y2-Math.sin(a)*hl*.8); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x2,y2); ctx.lineTo(x2-Math.cos(a-0.5)*hl,y2-Math.sin(a-0.5)*hl); ctx.lineTo(x2-Math.cos(a+0.5)*hl,y2-Math.sin(a+0.5)*hl); ctx.fill();
+}
+const font = (ctx,w,s) => ctx.font = `${w} ${s}px ${css('--f-mono')}`;
+
+/* ================= SCHWEREDRUCK ================= */
+const vS = $('view-schweredruck');
+buildCloze(document.querySelector('[data-cloze="sCloze"]'), 'Merksätze: Schweredruck', [
+  '<b>Entstehung:</b> Der Schweredruck in einer {Flüssigkeit|Gasflasche|Luftschicht} in der Tiefe h entsteht durch die {Gewichtskraft|Reibungskraft|Federkraft} auf die {Wassersäule|Gefäßwand|Luftblase} über dieser Wasserschicht.',
+  'Das {umgebende|verdampfte|gefrorene} Wasser übt {Druck|Zug|Reibung} nach {allen|oben|unten} Seiten auf {eingetauchte|trockene|schwebende} Körper aus.',
+  '<b>Tiefe:</b> Der Schweredruck ist {direkt proportional|umgekehrt proportional|unabhängig} zur {Eintauchtiefe|Gefäßform|Wassermenge}: p ~ h.',
+  'Der Schweredruck hängt nur von der {Eintauchtiefe h|Wassermenge|Gefäßbreite} ab, nicht aber von der {Form|Höhe|Dichte} der Wassersäule.',
+  'In {Wasser|Luft|Quecksilber} nimmt der Schweredruck alle {10|1|100} m Eintauchtiefe h um etwa {1|10|0,1} bar zu.',
+  '<b>Dichte:</b> Der Schweredruck hängt außerdem noch von der {Dichte|Farbe|Temperatur} der Flüssigkeit sowie vom {Ortsfaktor g|Luftdruck|Gefäßvolumen} ab. Insgesamt gilt: <b>p<sub>s</sub> = ρ · g · h</b>',
+]);
+
+mountTasks({
+  sV2: {label:'V2', title:'Auslaufverhalten des Wassers', prompt:'Auf dem Arbeitsblatt zeigt Bild 1 das Auslaufverhalten mit Fehlern. Welche Aussagen über das <b>richtige</b> Auslaufverhalten stimmen? Vergleiche mit der Simulation (alle Stopfen gleichzeitig gezogen).',
+    parts:[{kind:'mc', multi:true, opts:[
+      ['Aus dem untersten Auslauf spritzt das Wasser am schnellsten heraus.', true, 'Dort ist die Wassersäule darüber am höchsten, also auch der Schweredruck.'],
+      ['Aus allen Ausläufen spritzt das Wasser gleich weit.', false, 'Nein, der Druck nimmt mit der Tiefe zu. Die Strahlen sind unterschiedlich stark.'],
+      ['Das Wasser tritt waagerecht aus und fällt dann im Bogen nach unten.', true, 'Richtig, der Druck drückt das Wasser senkrecht zur Wand heraus.'],
+      ['Die Strahlen steigen nach dem Austreten zuerst nach oben.', false, 'Nein, nichts drückt das Wasser nach oben. Es fällt sofort im Bogen.'],
+      ['Aus dem obersten Auslauf kommt der schwächste Strahl.', true, 'Richtig, dort ist die Wassersäule darüber am kleinsten.'],
+    ]}],
+    sol:'<b>Typische Fehler in Bild 1:</b> Die Strahlen sind alle gleich stark gezeichnet oder der oberste Strahl spritzt am weitesten, und die Strahlen steigen zuerst nach oben. <b>Richtig ist:</b> Das Wasser tritt waagerecht aus. Je tiefer der Auslauf, desto größer der Schweredruck und desto stärker der Strahl. Der unterste Strahl ist am stärksten, der oberste am schwächsten.', solLabel:'Musterlösung'},
+  sV3: {label:'V3', title:'Bodendruckapparat', prompt:'Mit dem Bodendruckapparat wird untersucht, ob der Druck am Boden eines Gefäßes von seiner Form abhängt. Was zeigt der Versuch?',
+    parts:[{kind:'mc', opts:[
+      ['Im breiten Gefäß ist der Bodendruck am größten, weil dort am meisten Wasser drin ist.', false, 'Die Wassermenge spielt keine Rolle.'],
+      ['Bei gleicher Füllhöhe ist der Bodendruck in allen Gefäßen gleich groß.', true, 'Genau: Nur die Höhe der Wassersäule (und die Dichte) zählt.'],
+      ['Im schmalen Gefäß ist der Druck am größten, weil sich das Wasser dort zusammendrückt.', false, 'Wasser lässt sich praktisch nicht zusammendrücken.'],
+    ]}],
+    sol:'<b>Ergebnis:</b> Bei gleicher Füllhöhe zeigt der Druckmesser bei allen Gefäßformen denselben Wert. Der Bodendruck hängt nur von der Höhe der Flüssigkeit und ihrer Dichte ab, nicht von der Form des Gefäßes oder der Flüssigkeitsmenge (hydrostatisches Paradoxon).', solLabel:'Musterlösung'},
+  sA2: {label:'2', title:'Zwei Wassersäulen mit Hahn', prompt:'Ein breites und ein schmales Gefäß sind unten durch ein Rohr mit Hahn verbunden. Beide Wassersäulen stehen gleich hoch, der Hahn ist zu Beginn geschlossen. Entscheide begründet, was nach dem Öffnen des Hahns geschieht.',
+    parts:[{kind:'html', html:`<svg viewBox="0 0 300 120" style="width:min(100%,360px);height:auto;background:var(--bg);border-radius:10px" aria-label="Breites und schmales Gefäß, gleich hoch gefüllt, unten verbunden mit geschlossenem Hahn">
+      <rect x="30" y="30" width="110" height="70" fill="var(--water)" opacity=".45"/><rect x="220" y="30" width="40" height="70" fill="var(--water)" opacity=".45"/><rect x="140" y="88" width="80" height="10" fill="var(--water)" opacity=".45"/>
+      <path d="M30 14 V100 H140 V98 M140 88 V14 M220 14 V88 M220 98 V100 H260 V14 M140 88 H220 M140 98 H220" fill="none" stroke="var(--muted)" stroke-width="2"/>
+      <rect x="174" y="84" width="12" height="18" fill="var(--ink)"/><text x="180" y="78" text-anchor="middle" font-size="10" fill="var(--muted)">Hahn</text></svg>`},
+      {kind:'mc', opts:[
+        ['Wasser fließt vom breiten in das schmale Gefäß, weil im breiten mehr Wasser ist.', false, 'Die Wassermenge ist egal. Es kommt auf den Druck am Hahn an.'],
+        ['Es passiert nichts: Am Hahn ist der Druck von beiden Seiten gleich groß.', true, 'Richtig! Gleiche Höhe bedeutet gleichen Schweredruck.'],
+        ['Wasser fließt vom schmalen in das breite Gefäß, weil die schmale Säule stärker drückt.', false, 'Die Breite spielt für den Schweredruck keine Rolle.'],
+      ]}],
+    sol:'<b>Musterlösung:</b> Es passiert nichts. Der Schweredruck hängt nur von der Höhe der Wassersäule ab, nicht von der Wassermenge oder der Breite des Gefäßes. Beide Säulen sind gleich hoch, also ist der Druck am Hahn von beiden Seiten gleich groß. Es gibt keinen Druckunterschied, der das Wasser bewegen könnte (verbundene Gefäße).', solLabel:'Musterlösung'},
+  sA3: {label:'3', title:'Der Marianengraben', prompt:'Der Marianengraben ist ein Tiefseegraben im westlichen Pazifik. Mit einer Maximaltiefe von etwa 11.000 m liegt dort die tiefste Stelle des Weltmeeres. Am 23. Januar 1960 erreichte das U-Boot <i>Trieste</i> als erstes den Grund und tauchte wieder auf.',
+    parts:[
+      {kind:'html', html:'<p class="ctx"><b>a)</b> Die Dichte von Salzwasser beträgt 1,03 g/cm³. Ermittle durch Rechnung den Schweredruck p<sub>s</sub> auf dem Grund des Marianengrabens.</p>'},
+      {kind:'num', lbl:'p<sub>s</sub> =', units:{'Pa':1,'hPa':100,'bar':1e5,'N/cm²':1e4,'MPa':1e6}, c:1030*9.81*11000, c2:1030*10*11000, sig:3, alsoOk:[[1.1e8,2]], alsoMsg:'(Weil die Tiefe nur „etwa“ angegeben ist, sind auch 2 gültige Ziffern in Ordnung.)',
+        show:'p<sub>s</sub> ≈ 1,11 · 10⁸ Pa ≈ 1,11 · 10³ bar. Das ist über 1000-mal so viel wie der Luftdruck.', why:'Die Dichte 1,03 g/cm³ hat 3 gültige Ziffern.',
+        diag:[[1.03*9.81*11000,'Rechne die Dichte in kg/m³ um: 1,03 g/cm³ = 1030 kg/m³.'],[1030*9.81*1100,'Prüfe die Tiefe: 11.000 m.'],[1030*9.81*11000/1e5*1e4,'Prüfe die Umrechnung der Einheit: 1 bar = 100 000 Pa.']]},
+      {kind:'html', html:'<p class="ctx"><b>b)</b> Berechne den Betrag der Kraft, die infolge des Schweredrucks in dieser Tiefe auf das Sichtfenster (A = 0,35 m²) der Trieste wirkte.</p>'},
+      {kind:'num', lbl:'F =', units:{'N':1,'kN':1e3,'MN':1e6}, c:1030*9.81*11000*0.35, c2:1030*10*11000*0.35, sig:2,
+        show:'F = p · A ≈ 1,11 · 10⁸ Pa · 0,35 m² ≈ 3,9 · 10⁷ N. Das entspricht der Gewichtskraft von etwa 4000 Tonnen!', why:'A = 0,35 m² hat nur 2 gültige Ziffern.',
+        diag:[[1030*9.81*11000/0.35,'Kraft ist Druck <b>mal</b> Fläche: F = p · A.'],[1030*9.81*11000,'Das ist der Druck aus a). Multipliziere noch mit der Fläche.']]},
+      {kind:'html', html:'<p class="ctx"><b>c)</b> Erläutere einen Grund, weshalb die Tauchkapsel der Trieste kugelförmig war.</p>'},
+      {kind:'text', kw:[['Druck von allen Seiten',/(allen seiten|allseitig|rundherum|überall|von allen)/i],['gleichmäßig verteilt',/(gleichmäßig|verteil)/i],['keine Ecken/Kanten',/(ecke|kante)/i],['stabil',/(stabil|hält|widersteh|fest)/i]]},
+      {kind:'html', html:'<p class="ctx"><b>d)</b> Beurteile, ob die Trieste in Süßwasser tiefer hätte tauchen können.</p>'},
+      {kind:'text', kw:[['Dichte',/dichte/i],['Süßwasser kleiner',/(kleiner|geringer|weniger)/i],['Druck geringer',/druck/i],['so tiefe Gewässer?',/(see|gewässer|gibt es|nicht so tief|tiefste)/i]]},
+    ],
+    tips:['a) Schweredruck: p<sub>s</sub> = ρ · g · h. Rechne die Dichte in kg/m³ um: 1,03 g/cm³ = 1030 kg/m³.','b) Stelle p = F : A nach F um: F = p · A.','c) Denke daran, aus welchen Richtungen das Wasser drückt. Welche Form hält das am besten aus?'],
+    sol:[['a) Gegeben','ρ = 1,03 g/cm³ = 1030 kg/m³; g = 9,81 N/kg; h = 11 000 m'],['a) Rechnung','p<sub>s</sub> = ρ · g · h = 1030 kg/m³ · 9,81 N/kg · 11 000 m ≈ 111 000 000 Pa'],['a) Ergebnis','p<sub>s</sub> ≈ 1,11 · 10⁸ Pa ≈ 1,11 · 10³ bar (3 gültige Ziffern wegen 1,03)'],
+      ['b) Rechnung','F = p · A = 1,11 · 10⁸ Pa · 0,35 m² ≈ 3,9 · 10⁷ N (2 gültige Ziffern wegen 0,35)'],
+      ['c)','<span style="font-family:var(--f-body)">Der Wasserdruck wirkt von allen Seiten senkrecht auf die Wand. Eine Kugel verteilt diese Kräfte gleichmäßig auf die ganze Hülle. Es gibt keine Ecken oder Kanten, an denen die Belastung besonders groß ist und die Wand nachgeben könnte. Außerdem hat die Kugel bei gleichem Innenraum die kleinste Oberfläche, also wirkt insgesamt die kleinste Kraft auf sie.</span>'],
+      ['d)','<span style="font-family:var(--f-body)">Süßwasser hat eine kleinere Dichte (1,00 g/cm³) als Salzwasser (1,03 g/cm³). In gleicher Tiefe ist der Schweredruck deshalb etwa 3 % kleiner. Physikalisch hätte die Trieste in Süßwasser also etwas tiefer tauchen können (rund 11 300 m bei gleicher Belastung). In der Praxis gibt es aber kein Süßwasser-Gewässer, das annähernd so tief ist; der tiefste See der Erde (Baikalsee) ist nur etwa 1600 m tief.</span>']]},
+  sA4: {label:'4', title:'Aufsteigende Gasblasen', prompt:'Wenn organische Stoffe unter Wasser verfaulen, entstehen Gase, die als Blasen aufsteigen. Dabei ist das Produkt aus Gasdruck und Gasvolumen konstant (p · V = konstant). Eine Gasblase hat in 25 m Wassertiefe ein Volumen von V₁ = 0,30 cm³. Berechne das Volumen der Gasblase knapp unter der Wasseroberfläche.',
+    parts:[{kind:'num', lbl:'V₂ =', units:{'cm³':1,'ml':1,'mm³':0.001}, c:1.05, c2:0.3*(1.0+1000*9.81*25/1e5)/1.0, sig:2,
+      show:'V₂ = p₁ · V₁ : p₂ = 3,5 bar · 0,30 cm³ : 1,0 bar ≈ 1,1 cm³. Die Blase wird beim Aufsteigen mehr als dreimal so groß.', why:'V₁ = 0,30 cm³ und 25 m haben 2 gültige Ziffern.',
+      diag:[[0.75,'Du hast den Luftdruck vergessen. In 25 m Tiefe herrscht p₁ = 1,0 bar (Luft) + 2,5 bar (Wasser) = 3,5 bar.'],[0.3/3.5,'Umgekehrt! Beim Aufsteigen wird der Druck kleiner, also wird die Blase größer.'],[7.5,'Rechne die Tiefe zuerst in einen Druck um: 25 m Wasser ≈ 2,5 bar.'],[0.3,'Das Volumen ändert sich, weil sich der Druck ändert.']]}],
+    tips:['Wie groß ist der Druck in 25 m Tiefe? Faustregel: 10 m Wasser ≈ 1 bar. Vergiss den Luftdruck (1,0 bar) nicht!','p₁ · V₁ = p₂ · V₂ → V₂ = p₁ · V₁ : p₂ mit p₂ = 1,0 bar knapp unter der Oberfläche.'],
+    sol:[['Gegeben','V₁ = 0,30 cm³ in h = 25 m; p₂ = 1,0 bar (knapp unter der Oberfläche)'],['Druck unten','p₁ = 1,0 bar + 2,5 bar = 3,5 bar'],['Formel','p₁ · V₁ = p₂ · V₂ → V₂ = p₁ · V₁ : p₂'],['Rechnung','V₂ = 3,5 bar · 0,30 cm³ : 1,0 bar = 1,05 cm³'],['Gültige Ziffern','2 (wegen 0,30 cm³ und 25 m) → <b>V₂ ≈ 1,1 cm³</b>'],['Antwort','<span style="font-family:var(--f-body)">Knapp unter der Wasseroberfläche hat die Blase ein Volumen von etwa 1,1 cm³.</span>']]},
+  sA5: {label:'5', title:'Tauchen mit Pressluft', prompt:'Die Pressluftflasche eines Tauchers enthält 10 ℓ Luft bei einem Druck von 200 bar. Der Taucher benötigt 25 ℓ Luft pro Minute zum Atmen.',
+    parts:[
+      {kind:'html', html:'<p class="ctx"><b>a)</b> Berechne, wie lange der Taucher unmittelbar unter der Wasseroberfläche bei einem Druck von 1,0 bar tauchen kann.</p>'},
+      {kind:'num', lbl:'t =', units:{'min':1,'h':60,'s':1/60}, c:80, c2:79.6, sig:2, show:'Bei 1,0 bar nimmt die Luft 10 ℓ · 200 = 2000 ℓ ein. t = 2000 ℓ : 25 ℓ/min = 80 min.',
+        diag:[[0.4,'Bei 1,0 bar nimmt die Luft viel mehr Platz ein als in der Flasche: p₁ · V₁ = p₂ · V₂.'],[2000,'Das ist das Luftvolumen bei 1,0 bar. Teile noch durch 25 ℓ pro Minute.'],[4800,'Gesucht ist die Zeit in Minuten. Prüfe die Einheit.']]},
+      {kind:'html', html:'<p class="ctx"><b>b)</b> „Die maximale Tauchzeit wird umso kürzer, je tiefer man taucht.“ Begründe diesen Zusammenhang mithilfe des Gesetzes von Boyle-Mariotte.<br><small>Hinweis: Auch in der Tiefe benötigt der Taucher 25 ℓ Luft pro Minute. Der Druck in seiner Lunge ist in jeder Wassertiefe so groß wie der Umgebungsdruck im Wasser. Probiere es in der Simulation unten aus.</small></p>'},
+      {kind:'text', kw:[['Druck steigt mit Tiefe',/(tiefe|tiefer).{0,60}druck|druck.{0,60}(tiefe|tiefer|steigt|größer)/i],['p · V = konstant',/(p\s*·?\s*\*?\s*v|konstant|boyle|mariotte)/i],['Luft wird zusammengedrückt',/(zusammengedrückt|kleiner|weniger platz|komprim)/i],['Flasche schneller leer',/(schneller|kürzer|weniger lang|leer)/i]]},
+    ],
+    tips:['a) Boyle-Mariotte: p₁ · V₁ = p₂ · V₂. Welches Volumen hat die Flaschenluft bei 1,0 bar?','b) Wie groß ist der Druck in 10 m, 20 m, 30 m Tiefe? Wie viel Liter nimmt die Flaschenluft dann noch ein?'],
+    sol:[['a) Volumen bei 1,0 bar','V₂ = p₁ · V₁ : p₂ = 200 bar · 10 ℓ : 1,0 bar = 2000 ℓ'],['a) Zeit','t = 2000 ℓ : 25 ℓ/min = 80 min (2 gültige Ziffern)'],
+      ['b)','<span style="font-family:var(--f-body)">Mit jeden 10 m Tiefe steigt der Umgebungsdruck um etwa 1 bar. Der Taucher atmet die Luft mit diesem Druck ein. Nach Boyle-Mariotte (p · V = konstant) nimmt die Flaschenluft bei höherem Druck ein kleineres Volumen ein: In 30 m Tiefe (4 bar) sind es nur noch 200 bar · 10 ℓ : 4 bar = 500 ℓ. Weil der Taucher trotzdem 25 ℓ pro Minute einatmet, reicht die Luft nur noch 500 ℓ : 25 ℓ/min = 20 min. Je tiefer, desto größer der Druck, desto weniger Liter Atemluft und desto kürzer die Tauchzeit.</span>']]},
+});
+
+/* --- Aufgabe 1: Diagramm --- */
+const gS = stage('graphCanvas', 520, 360), gB = $('gB');
+function drawGraph(){
+  if (!gS.begin()) return; const ctx = gS.ctx;
+  const x0 = 70, y0 = 310, W = 420, H = 280; // 0..8 m, 0..0,8 bar (bis 1,0 Platz)
+  const X = h => x0 + h/8.5*W, Y = p => y0 - p/1.0*H;
+  ctx.strokeStyle = css('--line'); ctx.lineWidth = 1;
+  for (let h=0; h<=8; h++){ ctx.beginPath(); ctx.moveTo(X(h),Y(0)); ctx.lineTo(X(h),Y(1.0)); ctx.stroke(); }
+  for (let p=0; p<=1.0001; p+=0.1){ ctx.beginPath(); ctx.moveTo(X(0),Y(p)); ctx.lineTo(X(8.5),Y(p)); ctx.stroke(); }
+  ctx.fillStyle = css('--ink'); font(ctx,400,14);
+  for (let h=0; h<=8; h++) ctx.fillText(h, X(h)-4, y0+20);
+  for (let p=0; p<=1.0001; p+=0.1) ctx.fillText(de(p,1), x0-36, Y(p)+5);
+  arrow(ctx, x0, y0, X(8.5)+14, y0, 2, css('--ink')); arrow(ctx, x0, y0, x0, Y(1.0)-16, 2, css('--ink'));
+  font(ctx,700,14); ctx.fillText('h in m', X(8.5)-30, y0+40); ctx.fillText('p in bar', x0+8, Y(1.0)-6);
+  const pw = 1000*9.81*8/1e5;
+  ctx.strokeStyle = css('--bad'); ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(X(0),Y(0)); ctx.lineTo(X(8),Y(pw)); ctx.stroke();
+  ctx.fillStyle = css('--bad'); ctx.fillText('Wasser', X(8)-56, Y(pw)-10);
+  const pb = +gB.value;
+  ctx.strokeStyle = css('--accent'); ctx.lineWidth = 3; ctx.setLineDash([8,5]); ctx.beginPath(); ctx.moveTo(X(0),Y(0)); ctx.lineTo(X(8),Y(pb)); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle = css('--accent'); ctx.beginPath(); ctx.arc(X(8),Y(pb),6,0,7); ctx.fill(); ctx.fillText('Benzin', X(8)-64, Y(pb)+24);
+}
+gB.addEventListener('input', () => { $('gBo').textContent = de(+gB.value,2)+' bar'; $('gFb').innerHTML=''; drawGraph(); });
+$('gBo').textContent = de(+gB.value,2)+' bar';
+$('gCheck').onclick = () => {
+  const v = +gB.value, fb = $('gFb');
+  if (v >= 0.52 && v <= 0.6) fb.innerHTML = '<p class="fb ok"><strong>Richtig!</strong> Benzin erzeugt in 8 m Tiefe etwa 0,55 bar. Die Gerade ist flacher als bei Wasser, weil Benzin eine kleinere Dichte hat.</p>';
+  else if (v > 0.78) fb.innerHTML = '<p class="fb bad"><strong>Noch nicht.</strong> Benzin hat eine <b>kleinere</b> Dichte als Wasser. Der Druck muss also kleiner sein.</p>';
+  else fb.innerHTML = `<p class="fb bad"><strong>Noch nicht.</strong> ${v > 0.6 ? 'Etwas zu groß.' : 'Zu klein.'} Rechne: 0,70 · (Druck von Wasser bei 8 m).</p>`;
+};
+
+/* --- Station 5: Ausfluss --- */
+const jS = stage('jetCanvas', 640, 380), jH = $('jH');
+let plugsOut = false, jt = 0;
+$('jPlug').onclick = () => { plugsOut = !plugsOut; $('jPlug').textContent = plugsOut ? 'Stopfen einsetzen' : 'Stopfen ziehen'; };
+const PXM = 425; // px pro m
+const holes = [180, 140, 100, 60];
+const jTop = 30, jBase = 200, jX0 = 80, jX1 = 160, floorY = 360;
+function updJet(){
+  const lvl = jBase - (jBase-jTop)*(+jH.value)/100;
+  $('jHo').textContent = de((jBase-lvl)/PXM*100,0)+' cm';
+  $('jCalc').innerHTML = holes.map((y,k) => { const d = (y-lvl)/PXM; return `Auslauf ${4-k}: Tiefe ${d>0?de(d*100,0):'–'} cm → p<sub>s</sub> = ${d>0 ? de(1000*9.81*d/100,1)+' hPa' : '0 (über dem Wasser)'}`; }).join('<br>');
+}
+jH.addEventListener('input', updJet); updJet();
+function drawJet(dt){
+  if (!jS.begin()) return; const ctx = jS.ctx; jt += dt;
+  const lvl = jBase - (jBase-jTop)*(+jH.value)/100;
+  const water = css('--water'), wall = css('--muted');
+  // Ständer + Tisch
+  ctx.fillStyle = css('--line'); ctx.fillRect(jX0+10, jBase, jX1-jX0-20, floorY-jBase); ctx.fillRect(0, floorY, 640, 20);
+  // Wasser
+  ctx.fillStyle = water; ctx.globalAlpha = .55; ctx.fillRect(jX0, lvl, jX1-jX0, jBase-lvl); ctx.globalAlpha = 1;
+  ctx.strokeStyle = wall; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(jX0, jTop-10); ctx.lineTo(jX0, jBase); ctx.lineTo(jX1, jBase); ctx.lineTo(jX1, jTop-10); ctx.stroke();
+  // Strahlen
+  holes.forEach((y,k) => {
+    const d = y - lvl;
+    ctx.fillStyle = css('--ink'); ctx.fillRect(jX1, y-4, 10, 8);
+    if (!plugsOut){ ctx.fillStyle = '#a47f4e'; ctx.fillRect(jX1+10, y-5, 10, 10); return; }
+    if (d <= 0) return;
+    const fall = floorY - y, R = 2*Math.sqrt(d*fall);
+    ctx.strokeStyle = water; ctx.lineWidth = 4; ctx.globalAlpha = .75; ctx.beginPath();
+    for (let x=0; x<=R; x+=4){ const yy = y + x*x/(4*d); x ? ctx.lineTo(jX1+10+x, yy) : ctx.moveTo(jX1+10, y); }
+    ctx.stroke(); ctx.globalAlpha = 1;
+    // Tropfen
+    ctx.fillStyle = css('--water-deep');
+    for (let q=0; q<5; q++){ const f = ((jt*0.9 + q/5) % 1), x = f*R; ctx.beginPath(); ctx.arc(jX1+10+x, y + x*x/(4*d), 3, 0, 7); ctx.fill(); }
+    font(ctx,700,13); ctx.fillStyle = css('--gauge'); ctx.fillText(de(1000*9.81*d/PXM/100,0)+' hPa', jX0-70, y+5);
+  });
+  font(ctx,400,13); ctx.fillStyle = wall; ctx.fillText('Zylinder', jX0, jTop-16); ctx.fillText('Tisch', 580, floorY+15);
+}
+
+/* --- Station 6: Bodendruck --- */
+const bH = $('bH'), bRho = $('bRho'), bSvg = $('bodenSvg');
+function updBoden(){
+  const h = +bH.value, rho = +bRho.value, pPa = rho*9.81*h/100, p = pPa/100;
+  $('bHo').textContent = h+' cm';
+  const top = 260 - h*6.5, base = 260;
+  const shapes = [
+    {cx:110, wTop:60, wBot:60, name:'Zylinder'},
+    {cx:320, wTop:200, wBot:60, name:'Trichter'},
+    {cx:530, wTop:24, wBot:60, name:'Engstelle'},
+  ];
+  const fluid = bRho.value==='700' ? '#e8c35a' : bRho.value==='790' ? '#cfe6f5' : bRho.value==='1260' ? '#d9c8e8' : 'var(--water)';
+  let s = '';
+  shapes.forEach(S => {
+    const yTopVessel = 50, frac = (base - top)/(base - yTopVessel);
+    const wAt = y => S.wBot + (S.wTop - S.wBot)*(base - y)/(base - yTopVessel);
+    const wl = wAt(top);
+    if (S.name==='Engstelle'){
+      const neck = 24, bodyH = 80, yb = base - bodyH;
+      s += `<path d="M${S.cx-30} ${base} H${S.cx+30} V${yb} L${S.cx+12} ${yb-20} V${yTopVessel} M${S.cx-12} ${yTopVessel} V${yb-20} L${S.cx-30} ${yb}" fill="none" stroke="var(--muted)" stroke-width="2.5"/>`;
+      if (h>0){
+        const y = top;
+        let poly;
+        if (y >= yb) poly = `M${S.cx-30} ${base} H${S.cx+30} V${y} H${S.cx-30}Z`;
+        else if (y >= yb-20){ const t = (yb - y)/20, w = 30 - 18*t; poly = `M${S.cx-30} ${base} H${S.cx+30} V${yb} L${S.cx+w} ${y} H${S.cx-w} L${S.cx-30} ${yb}Z`; }
+        else poly = `M${S.cx-30} ${base} H${S.cx+30} V${yb} L${S.cx+12} ${yb-20} V${y} H${S.cx-12} V${yb-20} L${S.cx-30} ${yb}Z`;
+        s += `<path d="${poly}" fill="${fluid}" opacity=".6"/>`;
+      }
+    } else {
+      s += `<path d="M${S.cx-S.wTop/2} ${yTopVessel} L${S.cx-S.wBot/2} ${base} H${S.cx+S.wBot/2} L${S.cx+S.wTop/2} ${yTopVessel}" fill="none" stroke="var(--muted)" stroke-width="2.5"/>`;
+      if (h>0) s += `<path d="M${S.cx-S.wBot/2} ${base} H${S.cx+S.wBot/2} L${S.cx+wl/2} ${top} H${S.cx-wl/2}Z" fill="${fluid}" opacity=".6"/>`;
+    }
+    // Messgerät
+    const ang = Math.PI*(1 - Math.min(1, p/40));
+    s += `<rect x="${S.cx-30}" y="${base}" width="60" height="8" fill="var(--ink)"/>
+      <circle cx="${S.cx}" cy="${base+38}" r="24" fill="var(--surface)" stroke="var(--muted)" stroke-width="2"/>
+      <line x1="${S.cx}" y1="${base+38}" x2="${S.cx+20*Math.cos(ang)}" y2="${base+38-20*Math.sin(ang)}" stroke="var(--gauge)" stroke-width="3" stroke-linecap="round"/>
+      <text x="${S.cx}" y="${base+76}" text-anchor="middle" font-size="13" font-weight="700" fill="var(--gauge)">${de(p,1)} hPa</text>
+      <text x="${S.cx}" y="${yTopVessel-14}" text-anchor="middle" font-size="12" fill="var(--muted)">${S.name}</text>`;
+  });
+  s += `<path d="M10 ${top} H630" stroke="var(--accent)" stroke-dasharray="6 5"/><text x="12" y="${top-6}" font-size="12" fill="var(--accent)">h = ${h} cm</text>`;
+  bSvg.innerHTML = s;
+  $('bCalc').innerHTML = `p<sub>s</sub> = ρ · g · h<br>= ${de(rho)} kg/m³ · 9,81 N/kg · ${de(h/100,2)} m<br><span class="big">≈ ${de(Math.round(pPa))} Pa = ${de(p,1)} hPa</span><br><span style="color:var(--muted)">in allen drei Gefäßen gleich</span>`;
+}
+[bH,bRho].forEach(e => e.addEventListener('input', updBoden)); updBoden();
+
+/* --- Taucher --- */
+const dS = stage('diveCanvas', 640, 320), dvH = $('dvH');
+function updDive(){
+  const h = +dvH.value, p = 1 + h/10, V = 2000/p, t = V/25;
+  $('dvHo').textContent = h+' m';
+  $('dvCalc').innerHTML = `Druck: p = 1,0 bar + ${de(h/10,1)} bar = <b>${de(p,1)} bar</b><br>Flaschenluft bei diesem Druck:<br>V = 200 bar · 10 ℓ : ${de(p,1)} bar = <b>${de(Math.round(V))} ℓ</b><br><span class="big">Tauchzeit ≈ ${de(Math.round(t))} min</span>`;
+}
+dvH.addEventListener('input', updDive); updDive();
+function drawDive(now){
+  if (!dS.begin()) return; const ctx = dS.ctx;
+  const h = +dvH.value, p = 1 + h/10;
+  const grad = ctx.createLinearGradient(0,20,0,320); grad.addColorStop(0, css('--water')); grad.addColorStop(1, css('--water-deep'));
+  ctx.fillStyle = grad; ctx.globalAlpha = .4; ctx.fillRect(0,20,360,300); ctx.globalAlpha = 1;
+  ctx.fillStyle = css('--muted'); font(ctx,400,12);
+  for (let m=0;m<=40;m+=10){ const y = 20+m*7; ctx.fillRect(330,y,10,1); ctx.fillText(m+' m',290,y+4); }
+  const y = 20 + h*7, x = 140 + Math.sin(now/900)*6;
+  ctx.fillStyle = css('--ink'); ctx.beginPath(); ctx.ellipse(x, y+6, 40, 9, 0, 0, 7); ctx.fill();
+  ctx.beginPath(); ctx.arc(x+44, y+2, 9, 0, 7); ctx.fill();
+  ctx.fillStyle = css('--gauge'); ctx.fillRect(x-20, y-8, 34, 9);
+  // Blasen
+  ctx.strokeStyle = css('--surface'); ctx.lineWidth = 1.5;
+  for (let k=0;k<4;k++){ const by = y - ((now/12 + k*40) % Math.max(20,(y-20))); if (by > 22){ ctx.beginPath(); ctx.arc(x+50+Math.sin(by/9)*3, by, 3+k%2, 0, 7); ctx.stroke(); } }
+  // Balken: verfügbare Luft
+  const V = 2000/p, bw = 200;
+  ctx.fillStyle = css('--ink'); font(ctx,700,14); ctx.fillText('Atemluft aus der Flasche', 400, 50);
+  ctx.fillStyle = css('--line'); ctx.fillRect(400, 64, bw, 26);
+  ctx.fillStyle = css('--accent'); ctx.fillRect(400, 64, bw*V/2000, 26);
+  font(ctx,400,13); ctx.fillStyle = css('--ink'); ctx.fillText(de(Math.round(V))+' ℓ', 400, 110);
+  ctx.fillText('Tauchzeit', 400, 160);
+  ctx.fillStyle = css('--line'); ctx.fillRect(400, 172, bw, 26);
+  ctx.fillStyle = css('--ok'); ctx.fillRect(400, 172, bw*(V/25)/80, 26);
+  ctx.fillStyle = css('--ink'); ctx.fillText(de(Math.round(V/25))+' min', 400, 218);
+}
+
+/* ================= AUFTRIEB ================= */
+const vA = $('view-auftrieb');
+buildCloze(document.querySelector('[data-cloze="aCloze"]'), 'Merksätze: Auftrieb', [
+  '<b>Auftriebskraft:</b> Gegenstände scheinen im Wasser viel {leichter|schwerer|größer} zu sein als in {Luft|Öl|Sand}.',
+  'Die {Gewichtskraft|Auftriebskraft|Dichte} auf einen Körper verändert sich beim Eintauchen {nicht|stark|kaum merklich} – stattdessen übt das {Wasser|Gefäß|Seil} eine Kraft nach {oben|unten|außen} auf den Körper aus. Wir bezeichnen diese Kraft als {Auftriebskraft|Reibungskraft|Federkraft} F<sub>A</sub>. Sie wirkt grundsätzlich {entgegengesetzt|gleichgerichtet|waagerecht} zur Gewichtskraft F<sub>G</sub>.',
+  'Ihr Betrag ist so groß wie die {Differenz|Summe|Hälfte} aus dem Betrag F<sub>G</sub> der Gewichtskraft und der {scheinbaren Gewichtskraft|Dichte|Masse} F auf den Körper: F<sub>A</sub> = F<sub>G</sub> − F.',
+  'Die Auftriebskraft wird durch einen unterschiedlichen {Schweredruck|Luftdruck|Reibungsdruck} auf die {Ober- und Unterseite|linke und rechte Seite|Vorder- und Rückseite} des Körpers erzeugt.',
+  'Auftriebskräfte gibt es nicht nur in {Flüssigkeiten|Festkörpern|Metallen}, sondern auch in {Gasen|Kristallen|Magneten}.',
+  '<b>Archimedisches Prinzip:</b> Die Auftriebskraft auf Körper in Flüssigkeiten oder Gasen ist {genauso|doppelt so|halb so} groß wie die {Gewichtskraft|Dichte|Temperatur} der vom Körper {verdrängten|erwärmten|eingeschlossenen} Flüssigkeit bzw. des Gases: F<sub>A</sub> = ρ<sub>Fl</sub> · V · g',
+  '<b>Schwimmen:</b> {Schwimmende|Sinkende|Schwere} Körper tauchen so tief ein, dass Gewichtskraft und Auftriebskraft {gleich groß|verschieden groß|null} sind.',
+  'Je größer die {Dichte|Temperatur|Menge} der Flüssigkeit ist, desto {geringer|größer|gleicher} ist die Eintauchtiefe.',
+]);
+
+const G = 9.81;
+mountTasks({
+  aA1: {label:'1', title:'Ein Stein im Wasser', prompt:'Ein Stein hat eine Masse von 1,50 kg und ein Volumen von 536 cm³.',
+    parts:[
+      {kind:'html', html:'<p class="ctx"><b>a)</b> Berechne die Gewichtskraft auf den Stein und die Auftriebskraft in Wasser.</p>'},
+      {kind:'num', lbl:'F<sub>G</sub> =', unit:'N', c:1.5*G, c2:15, sig:3, show:'F<sub>G</sub> = m · g = 1,50 kg · 9,81 N/kg ≈ 14,7 N', why:'1,50 kg hat 3 gültige Ziffern.', diag:[[1.5,'Das ist die Masse in kg. Die Gewichtskraft ist F<sub>G</sub> = m · g.']]},
+      {kind:'num', lbl:'F<sub>A</sub> =', unit:'N', c:0.536*G, c2:5.36, sig:3, show:'Verdrängtes Wasser: 536 cm³ → 536 g = 0,536 kg. F<sub>A</sub> = 0,536 kg · 9,81 N/kg ≈ 5,26 N', why:'536 cm³ hat 3 gültige Ziffern.',
+        diag:[[0.536,'Das ist die Masse des verdrängten Wassers in kg. Multipliziere noch mit g.'],[536*G,'Rechne 536 g in kg um.'],[1.5*G-0.536*G,'Das ist die scheinbare Gewichtskraft F. Gefragt ist die Auftriebskraft.']]},
+      {kind:'mc', q:'<b>b)</b> Entscheide begründet, ob der Stein sinkt, schwebt oder aufsteigt.', opts:[['Er sinkt.', true, 'Richtig: F<sub>G</sub> (14,7 N) ist größer als F<sub>A</sub> (5,26 N).'],['Er schwebt.', false, 'Dafür müssten F<sub>G</sub> und F<sub>A</sub> gleich groß sein.'],['Er steigt auf.', false, 'Dafür müsste F<sub>A</sub> größer sein als F<sub>G</sub>.']]},
+    ],
+    tips:['F<sub>G</sub> = m · g. Für die Auftriebskraft: Wie viel Wasser verdrängt der Stein? 1 cm³ Wasser hat die Masse 1 g.','F<sub>A</sub> = Gewichtskraft des verdrängten Wassers = m<sub>Wasser</sub> · g.'],
+    sol:[['a)','F<sub>G</sub> = 1,50 kg · 9,81 N/kg ≈ <b>14,7 N</b>'],['','m<sub>Wasser</sub> = ρ · V = 1,00 g/cm³ · 536 cm³ = 536 g = 0,536 kg'],['','F<sub>A</sub> = 0,536 kg · 9,81 N/kg ≈ <b>5,26 N</b>'],['b)','<span style="font-family:var(--f-body)">Der Stein sinkt, weil die Gewichtskraft (14,7 N) größer ist als die Auftriebskraft (5,26 N). Oder: Seine Dichte (1,50 kg : 0,536 dm³ ≈ 2,8 kg/dm³) ist größer als die von Wasser.</span>']]},
+  aA2: {label:'2', title:'Eine Flasche voller Luft', prompt:'Eine verschlossene Flasche voller Luft erfährt eine Gewichtskraft von 6,0 N. Sie hat ein Volumen von 0,95 ℓ.',
+    parts:[
+      {kind:'html', html:'<p class="ctx"><b>a)</b> Berechne den Betrag der Auftriebskraft, wenn die Flasche vollständig unter Wasser getaucht wird.</p>'},
+      {kind:'num', lbl:'F<sub>A</sub> =', unit:'N', c:0.95*G, c2:9.5, sig:2, show:'0,95 ℓ Wasser haben die Masse 0,95 kg. F<sub>A</sub> = 0,95 kg · 9,81 N/kg ≈ 9,3 N', diag:[[0.95,'Das ist die Masse des verdrängten Wassers in kg. Multipliziere noch mit g.']]},
+      {kind:'mc', q:'<b>b)</b> Begründe, ob die untergetauchte Flasche sinkt, schwebt oder aufsteigt, wenn man sie loslässt.', opts:[['Sie sinkt.', false, 'Die Gewichtskraft (6,0 N) ist kleiner als die Auftriebskraft.'],['Sie schwebt.', false, 'Dafür müssten beide Kräfte gleich groß sein.'],['Sie steigt auf.', true, 'Richtig: F<sub>A</sub> ≈ 9,3 N ist größer als F<sub>G</sub> = 6,0 N.']]},
+      {kind:'html', html:'<p class="ctx"><b>c)</b> Berechne den Betrag der benötigten Kraft F, um die Flasche unter Wasser zu halten.</p>'},
+      {kind:'num', lbl:'F =', unit:'N', c:0.95*G-6, c2:3.5, sig:2, show:'F = F<sub>A</sub> − F<sub>G</sub> = 9,3 N − 6,0 N ≈ 3,3 N', diag:[[0.95*G+6,'Die Kräfte wirken gegeneinander: Ziehe die Gewichtskraft ab.'],[6,'Das ist die Gewichtskraft der Flasche.']]},
+      {kind:'html', html:'<p class="ctx"><b>d)</b> Berechne das Wasservolumen V, das in die Flasche eingefüllt werden muss, damit sie im Wasser schwebt.</p>'},
+      {kind:'num', lbl:'V =', units:{'ℓ':1,'dm³':1,'cm³':0.001,'ml':0.001}, c:(0.95*G-6)/G, c2:0.35, sig:2, show:'Das Wasser muss die fehlenden 3,3 N Gewichtskraft liefern: m = 3,3 N : 9,81 N/kg ≈ 0,34 kg → V ≈ 0,34 ℓ', diag:[[0.95,'Dann wäre die Flasche ganz voll und würde sinken.'],[0.95*G-6,'Das ist die Kraft in N. Rechne sie in eine Masse und dann in ein Volumen um.']]},
+    ],
+    tips:['F<sub>A</sub> = Gewichtskraft des verdrängten Wassers. 1 ℓ Wasser hat die Masse 1 kg.','c) Die Hand muss den Unterschied zwischen Auftriebskraft und Gewichtskraft ausgleichen.','d) Schweben heißt F<sub>G</sub> = F<sub>A</sub>. Wie viel Gewichtskraft fehlt noch? Welche Wassermasse hat diese Gewichtskraft?'],
+    sol:[['a)','F<sub>A</sub> = m<sub>Wasser</sub> · g = 0,95 kg · 9,81 N/kg ≈ <b>9,3 N</b>'],['b)','<span style="font-family:var(--f-body)">Sie steigt auf, weil F<sub>A</sub> (9,3 N) größer als F<sub>G</sub> (6,0 N) ist.</span>'],['c)','F = F<sub>A</sub> − F<sub>G</sub> = 9,32 N − 6,0 N ≈ <b>3,3 N</b>'],['d)','m = F : g = 3,32 N : 9,81 N/kg ≈ 0,34 kg → <b>V ≈ 0,34 ℓ</b> (= 3,4 · 10² cm³)']]},
+  aA3: {label:'3', title:'Eine Holzkugel unter Wasser', prompt:'Eine Holzkugel (V = 400 cm³) muss mit einer Kraft F = 1,0 N nach unten gedrückt werden, damit sie vollständig unter Wasser bleibt.',
+    parts:[
+      {kind:'mc', q:'<b>a)</b> Entscheide begründet: Ist der Betrag der Auftriebskraft größer, kleiner oder genauso groß wie der Betrag der Gewichtskraft der Holzkugel?', opts:[['F<sub>A</sub> ist größer als F<sub>G</sub>.', true, 'Richtig: Ohne die Hand würde die Kugel aufsteigen. Die Hand muss zusätzlich nach unten drücken.'],['F<sub>A</sub> ist kleiner als F<sub>G</sub>.', false, 'Dann würde die Kugel von allein sinken und man müsste sie nicht hinunterdrücken.'],['F<sub>A</sub> ist genauso groß wie F<sub>G</sub>.', false, 'Dann würde die Kugel schweben, man bräuchte keine Kraft.']]},
+      {kind:'html', html:'<p class="ctx"><b>b)</b> Berechne den Betrag F<sub>A</sub> der Auftriebskraft auf die Kugel.</p>'},
+      {kind:'num', lbl:'F<sub>A</sub> =', unit:'N', c:0.4*G, c2:4, sig:3, alsoOk:[[3.9,2]], show:'400 cm³ Wasser → 0,400 kg. F<sub>A</sub> = 0,400 kg · 9,81 N/kg ≈ 3,92 N', diag:[[0.4,'Das ist die Masse des verdrängten Wassers. Multipliziere mit g.'],[400*G,'Rechne 400 g in kg um.']]},
+      {kind:'html', html:'<p class="ctx"><b>c)</b> Berechne den Betrag F<sub>G</sub> der Gewichtskraft und die Masse m der Kugel.</p>'},
+      {kind:'num', lbl:'F<sub>G</sub> =', unit:'N', c:0.4*G-1, c2:3, sig:2, show:'F<sub>G</sub> = F<sub>A</sub> − F = 3,92 N − 1,0 N ≈ 2,9 N', why:'F = 1,0 N hat nur 2 gültige Ziffern.', diag:[[0.4*G+1,'Die Hand hilft der Gewichtskraft beim Hinunterdrücken: F<sub>A</sub> = F<sub>G</sub> + F, also F<sub>G</sub> = F<sub>A</sub> − F.']]},
+      {kind:'num', lbl:'m =', units:{'kg':1,'g':0.001}, c:(0.4*G-1)/G, c2:0.3, sig:2, show:'m = F<sub>G</sub> : g = 2,92 N : 9,81 N/kg ≈ 0,30 kg', diag:[[0.4*G-1,'Das ist die Gewichtskraft in N. Teile durch g.']]},
+    ],
+    tips:['Im Gleichgewicht gilt: Kräfte nach oben = Kräfte nach unten, also F<sub>A</sub> = F<sub>G</sub> + F.','F<sub>A</sub> = Gewichtskraft von 400 cm³ Wasser.'],
+    sol:[['a)','<span style="font-family:var(--f-body)">F<sub>A</sub> ist größer als F<sub>G</sub>. Die Kugel würde ohne Hand aufsteigen; die Hand gleicht den Unterschied aus.</span>'],['b)','F<sub>A</sub> = 0,400 kg · 9,81 N/kg ≈ <b>3,92 N</b>'],['c)','F<sub>G</sub> = F<sub>A</sub> − F = 3,92 N − 1,0 N ≈ <b>2,9 N</b>'],['','m = F<sub>G</sub> : g = 2,92 N : 9,81 N/kg ≈ <b>0,30 kg</b>']]},
+  aA4: {label:'4', title:'Woraus besteht der Gegenstand?', prompt:'Auf einen Gegenstand wirkt eine Gewichtskraft von 135 N. Ganz unter Wasser getaucht misst man eine scheinbare Gewichtskraft von 85 N. Schließe aus diesen Angaben auf das Material, indem du seine Dichte berechnest.',
+    parts:[
+      {kind:'num', lbl:'ρ =', units:{'g/cm³':1,'kg/dm³':1,'kg/m³':0.001}, c:2.7, sig:2, show:'ρ = m : V = 13,8 kg : 5,10 dm³ ≈ 2,7 g/cm³. Kurz: Der Gegenstand ist 135 N : 50 N = 2,7-mal so schwer wie das verdrängte Wasser.',
+        diag:[[135/85,'Teile die Gewichtskraft durch die <b>Auftriebskraft</b> (135 N − 85 N = 50 N), nicht durch die scheinbare Gewichtskraft.'],[50/135,'Umgekehrt: ρ = m : V.'],[13.76,'Das ist die Masse in kg. Du brauchst noch das Volumen.']]},
+      {kind:'mc', q:'Aus welchem Material könnte der Gegenstand bestehen?', opts:[['Holz (≈ 0,6 g/cm³)', false, 'Holz würde schwimmen.'],['Aluminium (2,7 g/cm³)', true, 'Richtig, die Dichte passt genau.'],['Eisen (7,9 g/cm³)', false, 'Eisen hat eine viel größere Dichte.'],['Gold (19,3 g/cm³)', false, 'Gold hat eine viel größere Dichte.']]},
+    ],
+    tips:['F<sub>A</sub> = F<sub>G</sub> − F = 135 N − 85 N = 50 N.','Aus F<sub>A</sub> bekommst du die Masse des verdrängten Wassers und damit das Volumen des Gegenstands. Aus F<sub>G</sub> bekommst du seine Masse.'],
+    sol:[['Auftrieb','F<sub>A</sub> = 135 N − 85 N = 50 N'],['Volumen','m<sub>Wasser</sub> = 50 N : 9,81 N/kg ≈ 5,10 kg → V ≈ 5,10 dm³'],['Masse','m = 135 N : 9,81 N/kg ≈ 13,8 kg'],['Dichte','ρ = m : V = 13,8 kg : 5,10 dm³ ≈ <b>2,7 kg/dm³ = 2,7 g/cm³</b>'],['Material','<span style="font-family:var(--f-body)">Die Dichte passt zu <b>Aluminium</b>.</span>']]},
+  aA5: {label:'5', title:'Ein selbst gebauter Heißluftballon', prompt:'Ein Heißluftballon besitzt ein Volumen von 270 ℓ. Seine Hülle hat eine Masse von 65 g. Die Luft im Ballon wird von 0,0 °C auf 80 °C erhitzt.',
+    parts:[
+      {kind:'html', html:'<p class="ctx"><b>a)</b> Die verdrängte Luft von 0,0 °C hat eine Dichte von 1,3 g/ℓ. Berechne den Betrag F<sub>A</sub> der Auftriebskraft auf den Ballon.</p>'},
+      {kind:'num', lbl:'F<sub>A</sub> =', units:{'N':1,'mN':0.001}, c:0.351*G, c2:3.51, sig:2, show:'m<sub>Luft</sub> = 1,3 g/ℓ · 270 ℓ = 351 g → F<sub>A</sub> = 0,351 kg · 9,81 N/kg ≈ 3,4 N', why:'1,3 g/ℓ hat nur 2 gültige Ziffern.', diag:[[0.351,'Das ist die Masse der verdrängten Luft in kg. Multipliziere noch mit g.'],[351*G,'Rechne 351 g in kg um.']]},
+      {kind:'html', html:'<p class="ctx"><b>b)</b> Die Luft von 80 °C hat eine Dichte von 1,0 g/ℓ. Berechne den Betrag F<sub>G</sub> der Gewichtskraft auf den Ballon.</p>'},
+      {kind:'num', lbl:'F<sub>G</sub> =', units:{'N':1,'mN':0.001}, c:0.335*G, c2:3.35, sig:2, show:'m = 65 g (Hülle) + 270 g (warme Luft) = 335 g → F<sub>G</sub> = 0,335 kg · 9,81 N/kg ≈ 3,3 N', diag:[[0.065*G,'Vergiss die warme Luft im Ballon nicht: 1,0 g/ℓ · 270 ℓ = 270 g.'],[0.27*G,'Vergiss die Hülle (65 g) nicht.'],[0.335,'Das ist die Masse in kg. Multipliziere mit g.']]},
+      {kind:'mc', q:'<b>c)</b> Entscheide mit allen Angaben und Teilergebnissen, ob der Ballon aufsteigt.', opts:[['Ja, er steigt auf.', true, 'Richtig: F<sub>A</sub> ≈ 3,4 N ist etwas größer als F<sub>G</sub> ≈ 3,3 N.'],['Nein, er bleibt am Boden.', false, 'Vergleiche F<sub>A</sub> und F<sub>G</sub> noch einmal.'],['Er schwebt genau.', false, 'Die Kräfte sind nicht ganz gleich.']]},
+    ],
+    tips:['F<sub>A</sub> = Gewichtskraft der verdrängten (kalten) Luft: m = ρ · V.','Die Gewichtskraft des Ballons besteht aus der Hülle <b>und</b> der warmen Luft darin.'],
+    sol:[['a)','m = 1,3 g/ℓ · 270 ℓ = 351 g → F<sub>A</sub> = 0,351 kg · 9,81 N/kg ≈ <b>3,4 N</b>'],['b)','m = 65 g + 1,0 g/ℓ · 270 ℓ = 335 g → F<sub>G</sub> ≈ <b>3,3 N</b>'],['c)','<span style="font-family:var(--f-body)">F<sub>A</sub> (3,4 N) ist größer als F<sub>G</sub> (3,3 N), der Ballon steigt also auf, allerdings nur knapp. Die Kraft nach oben beträgt nur etwa 0,16 N.</span>']]},
+  aA6: {label:'6', title:'Wahr oder falsch?', prompt:'Entscheide, ob die Aussagen wahr oder falsch sind. Korrigiere die falschen Aussagen in deinem Heft.',
+    parts:[{kind:'tf', items:[
+      ['Je größer die Dichte eines Körpers ist, desto größer ist der Betrag der Auftriebskraft.', false],
+      ['Je größer die Dichte einer Flüssigkeit ist, desto größer ist die Auftriebskraft auf einen eingetauchten Körper.', true],
+      ['Die Auftriebskraft in einem See hängt davon ab, welches Wasservolumen in ihm gespeichert ist.', false],
+      ['In einem See erfährt ein Körper in größerer Tiefe eine größere Auftriebskraft.', false],
+    ]}],
+    sol:'<ol type="a" style="margin:0;padding-left:1.4em;display:grid;gap:6px"><li><b>Falsch.</b> Die Auftriebskraft hängt nicht von der Dichte des Körpers ab, sondern von seinem eingetauchten Volumen und der Dichte der Flüssigkeit.</li><li><b>Wahr.</b> F<sub>A</sub> = ρ<sub>Fl</sub> · V · g.</li><li><b>Falsch.</b> Die Auftriebskraft hängt nur vom Volumen der vom Körper <i>verdrängten</i> Flüssigkeit ab, nicht davon, wie viel Wasser im See ist.</li><li><b>Falsch.</b> Die Auftriebskraft ist in jeder Tiefe gleich groß. Zwar steigt der Druck oben und unten am Körper, der <i>Unterschied</i> bleibt aber gleich.</li></ol>'},
+  aA7: {label:'7', title:'Archimedes als Detektiv', prompt:'Rechne mit den Daten aus der Geschichte (ρ<sub>Wasser</sub> = 1,00 kg/dm³).',
+    parts:[
+      {kind:'html', html:'<p class="ctx"><b>a)</b> Gib das Volumen des verdrängten Wassers beim Goldbarren an.</p>'},
+      {kind:'num', lbl:'V =', units:{'dm³':1,'cm³':0.001,'ℓ':1,'ml':0.001}, c:0.026, sig:2, show:'V = 26 cm³ = 0,026 dm³', diag:[[26,'Rechne cm³ in dm³ um: 1 dm³ = 1000 cm³.']]},
+      {kind:'html', html:'<p class="ctx"><b>b)</b> Berechne die Masse des verdrängten Wassers mit ρ = 1,00 kg/dm³.</p>'},
+      {kind:'num', lbl:'m =', units:{'kg':1,'g':0.001}, c:0.026, sig:2, show:'m = ρ · V = 1,00 kg/dm³ · 0,026 dm³ = 0,026 kg = 26 g', diag:[[26,'Prüfe die Einheit: 26 g = 0,026 kg.']]},
+      {kind:'html', html:'<p class="ctx"><b>c)</b> Berechne den Betrag der Auftriebskraft auf den Goldbarren.</p>'},
+      {kind:'num', lbl:'F<sub>A</sub> =', unit:'N', c:0.026*G, c2:0.26, sig:2, show:'F<sub>A</sub> = 0,026 kg · 9,81 N/kg ≈ 0,26 N', diag:[[26*G,'Rechne g in kg um.']]},
+      {kind:'html', html:'<p class="ctx"><b>d)</b> Berechne den Betrag der Gewichtskraft der Goldkrone (m = 500 g).</p>'},
+      {kind:'num', lbl:'F<sub>G</sub> =', unit:'N', c:0.5*G, c2:5, sig:3, alsoOk:[[4.9,2],[5.0,2]], show:'F<sub>G</sub> = 0,500 kg · 9,81 N/kg ≈ 4,91 N', diag:[[500*G,'Rechne 500 g in kg um.']]},
+      {kind:'html', html:'<p class="ctx"><b>e)</b> Ermittle anhand der scheinbaren Gewichtskraft F = 2,2 N den Betrag der Auftriebskraft auf die Krone.</p>'},
+      {kind:'num', lbl:'F<sub>A</sub> =', unit:'N', c:0.5*G-2.2, c2:2.8, sig:2, show:'F<sub>A</sub> = F<sub>G</sub> − F = 4,91 N − 2,2 N ≈ 2,7 N', diag:[[0.5*G+2.2,'Ziehe die scheinbare Gewichtskraft ab: F<sub>A</sub> = F<sub>G</sub> − F.']]},
+      {kind:'html', html:'<p class="ctx"><b>f)</b> Verfasse mit deinen eigenen Worten eine Erklärung für den König.</p>'},
+      {kind:'text', ph:'Mein König, …', kw:[['gleiche Masse',/(gleich schwer|gleiche masse|500)/i],['mehr Auftrieb',/(auftrieb|nach oben)/i],['größeres Volumen',/(volumen|größer|mehr wasser|verdrängt)/i],['kleinere Dichte',/dichte/i],['kein reines Gold / Silber',/(silber|nicht.{0,20}gold|betrug|betrog)/i]]},
+    ],
+    tips:['a) und b): 1 cm³ Wasser hat die Masse 1 g.','e) Die scheinbare Gewichtskraft ist F = F<sub>G</sub> − F<sub>A</sub>.','f) Vergleiche die Auftriebskräfte von Barren und Krone. Was sagt das über ihr Volumen und ihre Dichte?'],
+    sol:[['a)','V = 26 cm³ = <b>0,026 dm³</b>'],['b)','m = 1,00 kg/dm³ · 0,026 dm³ = <b>0,026 kg</b> = 26 g'],['c)','F<sub>A</sub> = 0,026 kg · 9,81 N/kg ≈ <b>0,26 N</b>'],['d)','F<sub>G</sub> = 0,500 kg · 9,81 N/kg ≈ <b>4,91 N</b>'],['e)','F<sub>A</sub> = 4,91 N − 2,2 N ≈ <b>2,7 N</b>'],
+      ['f)','<span style="font-family:var(--f-body)">Mein König, die Krone und der Goldbarren sind gleich schwer (500 g). Unter Wasser erfährt die Krone aber eine viel größere Auftriebskraft (2,7 N statt 0,26 N). Sie verdrängt also viel mehr Wasser und hat deshalb ein größeres Volumen als der Barren. Gleiche Masse in größerem Volumen bedeutet eine kleinere Dichte. Reines Gold hätte dieselbe Dichte wie der Barren. Die Krone kann also nicht aus reinem Gold sein: Der Goldschmied hat einen Teil des Goldes durch ein leichteres Metall wie Silber ersetzt.</span>']]},
+  aA8: {label:'8', title:'Archimedes von Syrakus', prompt:'Recherchiere zu Archimedes (z. B. im Internet oder in einem Lexikon).',
+    parts:[
+      {kind:'html', html:'<p class="ctx"><b>a)</b> Nenne die wichtigsten Lebensdaten.</p>'},{kind:'text', ph:'geboren …'},
+      {kind:'html', html:'<p class="ctx"><b>b)</b> Zähle die berühmtesten Entdeckungen und Erfindungen von Archimedes auf.</p>'},{kind:'text', ph:'- …'},
+    ],
+    sol:[['a)','<span style="font-family:var(--f-body)">Geboren um 287 v. Chr. in Syrakus (Sizilien), gestorben 212 v. Chr. in Syrakus. Er war Mathematiker, Physiker und Ingenieur und gilt als einer der bedeutendsten Wissenschaftler der Antike. Er starb, als die Römer Syrakus eroberten.</span>'],['b)','<span style="font-family:var(--f-body)">Archimedisches Prinzip (Auftrieb) · Hebelgesetz („Gebt mir einen festen Punkt, und ich hebe die Welt aus den Angeln“) · Archimedische Schraube zum Wasserheben · Flaschenzug · sehr genaue Berechnung der Kreiszahl π · Formeln für Volumen und Oberfläche von Kugel und Zylinder · Kriegsmaschinen zur Verteidigung von Syrakus (z. B. Katapulte und Greifkräne)</span>']], solLabel:'Musterlösung'},
+});
+
+/* --- Station 7: Kraftmesser --- */
+const kS = stage('kmCanvas', 640, 400), kMat = $('kMat'), kLiq = $('kLiq'), kDip = $('kDip');
+const VK = 25, GK = 10; // cm³, N/kg (wie Arbeitsblatt)
+const names = {'2.7':'Alu','7.9':'Eisen','8.5':'Messing'};
+function kVals(){
+  const rk = +kMat.value, rf = +kLiq.value, cBot = 280 + (+kDip.value)/100*95;
+  const f = Math.max(0, Math.min(70, (cBot-310)/(1-22/70)))/70;
+  const FG = rk*VK/1000*GK, FA = rf*VK*f/1000*GK;
+  return {rk, rf, f, cBot, FG, FA, F: FG-FA, Vd: VK*f, full: f>=1};
+}
+function updKm(){
+  const v = kVals();
+  $('kDipo').textContent = v.full ? 'ganz eingetaucht' : de(v.f*100,0)+' % eingetaucht';
+  $('kF').textContent = de(v.F,2)+' N';
+  $('kInfo').textContent = `Gewichtskraft in Luft: ${de(v.FG,2)} N · Auftrieb: ${de(v.FA,2)} N`;
+  $('kNote').innerHTML = v.f === 0 ? '<b>Start:</b> Der Zylinder hängt in der Luft. Der Kraftmesser zeigt seine Gewichtskraft F<sub>G</sub>. Senke ihn langsam ab.'
+    : !v.full ? '<b>Beobachte:</b> Je weiter der Zylinder eintaucht, desto mehr Flüssigkeit verdrängt er und desto kleiner wird die Anzeige.'
+    : `<b>Ganz eingetaucht:</b> ${de(v.Vd,0)} ml ${v.rf===1?'Wasser':'Spiritus'} wurden verdrängt. Ab jetzt ändert sich die Anzeige nicht mehr, auch wenn du tiefer gehst.`;
+}
+[kMat,kLiq,kDip].forEach(e => e.addEventListener('input', updKm)); updKm();
+const rows = [['Gewichtskraft auf den Zylinder (in Luft)','F<sub>G</sub> in N'],['Scheinbare Gewichtskraft in '+'Flüssigkeit','F in N'],['Differenz der beiden Kräfte','ΔF in N'],['Volumen der verdrängten Flüssigkeit','V in ml'],['Masse der verdrängten Flüssigkeit','m in g'],['Gewichtskraft der verdrängten Flüssigkeit','F<sub>G,Fl</sub> in N']];
+let meas = {};
+function renderTab(){
+  const cols = ['Alu','Eisen','Messing','Messing (Spiritus)'];
+  $('mTab').innerHTML = `<tr><th></th><th>Größe</th>${cols.map(c=>`<th>${c}</th>`).join('')}</tr>` + rows.map(([t,u],k) =>
+    `<tr><td>${'abcdef'[k]})</td><td>${t}<br><small>${u}</small></td>${cols.map(c => `<td>${meas[c] ? meas[c][k] : ''}</td>`).join('')}</tr>`).join('');
+}
+renderTab();
+$('kTake').onclick = () => {
+  const v = kVals();
+  if (!v.full){ $('kNote').innerHTML = '<b>Achtung:</b> Der Zylinder muss vollständig eingetaucht sein, bevor du die Werte übernimmst.'; return; }
+  const key = names[kMat.value] + (v.rf===1 ? '' : ' (Spiritus)');
+  if (v.rf !== 1 && key !== 'Messing (Spiritus)'){ $('kNote').innerHTML = 'In der Tabelle ist für Spiritus nur der Messingzylinder (Versuch 2) vorgesehen.'; return; }
+  const m = v.rf*v.Vd;
+  meas[key] = [de(v.FG,2), de(v.F,2), de(v.FA,2), de(v.Vd,0), de(m,0), de(m/1000*GK,2)];
+  renderTab();
+  const n = Object.keys(meas).length;
+  $('mHint').textContent = n < 4 ? `${n} von 4 Spalten gefüllt.` : 'Alle Messungen fertig. Vergleiche die Zeilen c) und f).';
+};
+$('mClear').onclick = () => { meas = {}; renderTab(); $('mHint').textContent = 'Für jeden Zylinder: auswählen, ganz eintauchen, „Messwerte übernehmen“.'; };
+function drawKm(){
+  if (!kS.begin()) return; const ctx = kS.ctx, v = kVals();
+  const f = v.f, rf = v.rf;
+  const ink = css('--ink'), mut = css('--muted');
+  const liq = rf===1 ? css('--water') : '#e6d27a';
+  // Becher
+  const bx0 = 230, bx1 = 410, bTop = 210, bBot = 380, lvl0 = 310, rise = 22*f;
+  const lvl = lvl0 - rise;
+  ctx.fillStyle = liq; ctx.globalAlpha = .45; ctx.fillRect(bx0, lvl, bx1-bx0, bBot-lvl); ctx.globalAlpha = 1;
+  ctx.strokeStyle = mut; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(bx0, bTop); ctx.lineTo(bx0, bBot); ctx.lineTo(bx1, bBot); ctx.lineTo(bx1, bTop); ctx.stroke();
+  ctx.fillStyle = mut; font(ctx,400,11);
+  for (let k=0;k<=6;k++){ const y = lvl0 - k*22/25*10; ctx.fillRect(bx1-14, y, 10, 1.5); if (k%2===0) ctx.fillText((100+k*10)+' ml', bx1+6, y+4); }
+  // Zylinder
+  const ch = 70, cw = 46, cx = 320;
+  const cBot = v.cBot;
+  const cTop = cBot - ch;
+  const col = v.rk===2.7 ? '#b9c2c9' : v.rk===7.9 ? '#5d6670' : '#c9a24a';
+  ctx.fillStyle = col; ctx.fillRect(cx-cw/2, cTop, cw, ch); ctx.strokeStyle = ink; ctx.lineWidth = 1.5; ctx.strokeRect(cx-cw/2, cTop, cw, ch);
+  // Kraftmesser
+  const F = v.FG - v.rf*VK*Math.min(1,f)/1000*GK;
+  const sTop = 14, sBot = 176;
+  ctx.strokeStyle = ink; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(cx, 4); ctx.lineTo(cx, sTop); ctx.stroke();
+  ctx.fillStyle = css('--surface'); ctx.fillRect(cx-14, sTop, 28, sBot - sTop); ctx.strokeRect(cx-14, sTop, 28, sBot - sTop);
+  const scaleLen = sBot - sTop - 12, ptr = sTop + 6 + scaleLen*Math.min(1, F/2.5);
+  ctx.fillStyle = mut; font(ctx,400,10);
+  for (let q=0; q<=2.5001; q+=0.25){ const y = sTop+6+scaleLen*q/2.5; ctx.fillRect(cx-14, y, q%0.5<0.01?10:6, 1); if (q%0.5<0.01) ctx.fillText(de(q,1), cx-44, y+4); }
+  ctx.fillStyle = css('--gauge'); ctx.fillRect(cx-14, ptr-1.5, 28, 3);
+  ctx.strokeStyle = ink; ctx.beginPath(); ctx.moveTo(cx, sBot); ctx.lineTo(cx, cTop); ctx.stroke();
+  font(ctx,700,15); ctx.fillStyle = ink; ctx.fillText(de(F,2)+' N', cx+24, ptr+5);
+  // Kräfte
+  if (f > 0.02){
+    const L = 16 + 70*v.FA/0.3;
+    arrow(ctx, cx-cw/2-20, cBot, cx-cw/2-20, cBot-L, 3+3*f, css('--ok'));
+    font(ctx,700,14); ctx.fillStyle = css('--ok'); ctx.fillText('F', cx-cw/2-52, cBot-L/2); font(ctx,700,10); ctx.fillText('A', cx-cw/2-43, cBot-L/2+4);
+  }
+  font(ctx,400,13); ctx.fillStyle = mut; ctx.fillText('Kraftmesser', cx+24, sTop+14); ctx.fillText(rf===1?'Wasser':'Spiritus', bx0+6, bBot-8); ctx.fillText(names[kMat.value]+'-Zylinder', cx+cw/2+8, cTop+ch/2);
+}
+
+/* --- Station 8: Schwimmen --- */
+const sS = stage('swCanvas', 640, 380), swRho = $('swRho'), swLiq = $('swLiq');
+const sw = {y: 120, v: 0};
+const TANK = {x0: 140, x1: 500, top: 70, bot: 360, lvl: 110}, BH = 80, BW = 110;
+function swState(){
+  const rk = +swRho.value, rf = +swLiq.value;
+  return {rk, rf, st: Math.abs(rk-rf) < 0.005 ? 'schwebt' : rk > rf ? 'sinkt' : 'schwimmt'};
+}
+function updSw(){
+  const {rk, rf, st} = swState();
+  $('swRhoo').textContent = de(rk,2)+' g/cm³';
+  const sub = Math.min(1, rk/rf);
+  $('swCalc').innerHTML = `ρ<sub>K</sub> = ${de(rk,2)} g/cm³ · ρ<sub>Fl</sub> = ${de(rf,2)} g/cm³<br>` + (st==='sinkt' ? `ρ<sub>K</sub> &gt; ρ<sub>Fl</sub> → <b>sinkt</b>` : st==='schwebt' ? `ρ<sub>K</sub> = ρ<sub>Fl</sub> → <b>schwebt</b>` : `ρ<sub>K</sub> &lt; ρ<sub>Fl</sub> → <b>steigt auf und schwimmt</b><br>eingetaucht: ${de(rk,2)} : ${de(rf,2)} ≈ <b>${de(sub*100,0)} %</b>`);
+  $('swNote').innerHTML = st==='schwimmt' ? '<b>Schwimmen:</b> Der Körper taucht nur so tief ein, bis das verdrängte Wasser genauso schwer ist wie er selbst. Dann ist F<sub>A</sub> = F<sub>G</sub>.'
+    : st==='schwebt' ? '<b>Schweben:</b> Gewichtskraft und Auftriebskraft sind gleich groß. Der Körper bleibt in jeder Tiefe stehen, wie ein U-Boot.'
+    : '<b>Sinken:</b> Selbst ganz untergetaucht ist die Auftriebskraft kleiner als die Gewichtskraft.';
+}
+[swRho, swLiq].forEach(e => e.addEventListener('input', updSw)); updSw();
+document.querySelectorAll('#station8 .presets button').forEach(b => b.onclick = () => { swRho.value = b.dataset.r; updSw(); });
+$('swDrop').onclick = () => { sw.y = 210; sw.v = 0; };
+function drawSw(dt){
+  if (!sS.begin()) return; const ctx = sS.ctx, {rk, rf, st} = swState();
+  // Physik (vereinfacht, gedämpft)
+  const top = sw.y, bot = sw.y + BH, lvl = TANK.lvl;
+  const subFrac = Math.max(0, Math.min(1, (bot - lvl)/BH));
+  let acc = 9.81*(1 - rf*subFrac/rk) * 30;
+  sw.v += acc*dt; sw.v *= Math.pow(0.12, dt);
+  sw.y += sw.v*dt;
+  if (sw.y + BH > TANK.bot){ sw.y = TANK.bot - BH; sw.v = 0; }
+  if (sw.y < 20){ sw.y = 20; sw.v = 0; }
+  const liq = rf===1 ? css('--water') : rf>1 ? '#5aa9a0' : '#e6d27a';
+  ctx.fillStyle = liq; ctx.globalAlpha = .4; ctx.fillRect(TANK.x0, lvl, TANK.x1-TANK.x0, TANK.bot-lvl); ctx.globalAlpha = 1;
+  ctx.strokeStyle = css('--muted'); ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(TANK.x0, TANK.top); ctx.lineTo(TANK.x0, TANK.bot); ctx.lineTo(TANK.x1, TANK.bot); ctx.lineTo(TANK.x1, TANK.top); ctx.stroke();
+  const cx = (TANK.x0+TANK.x1)/2, bx = cx - BW/2;
+  const col = mixc('#e9d3a8', '#4b5560', Math.min(1, (rk-0.1)/2.9));
+  ctx.fillStyle = col; ctx.fillRect(bx, sw.y, BW, BH); ctx.strokeStyle = css('--ink'); ctx.lineWidth = 1.5; ctx.strokeRect(bx, sw.y, BW, BH);
+  // eingetauchter Teil markieren
+  const sf = Math.max(0, Math.min(1, (sw.y + BH - lvl)/BH));
+  if (sf > 0 && sf < 1){ ctx.setLineDash([5,4]); ctx.strokeStyle = css('--water-deep'); ctx.beginPath(); ctx.moveTo(bx, lvl); ctx.lineTo(bx+BW, lvl); ctx.stroke(); ctx.setLineDash([]); }
+  // Kräfte
+  const FG = rk, FA = rf*sf, sc = 40;
+  const mid = sw.y + BH/2;
+  arrow(ctx, cx+22, mid, cx+22, mid + FG*sc + 6, 4, css('--gauge'));
+  if (FA > 0.01) arrow(ctx, cx-22, mid, cx-22, mid - FA*sc - 6, 4, css('--ok'));
+  const sub = (t,u,x,y,col) => { ctx.fillStyle = col; font(ctx,700,15); ctx.fillText(t,x,y); font(ctx,700,10); ctx.fillText(u,x+9,y+4); };
+  sub('F','G', cx+32, mid + FG*sc*0.6 + 10, css('--gauge'));
+  if (FA > 0.01) sub('F','A', cx-50, mid - FA*sc*0.6, css('--ok'));
+  font(ctx,700,16); ctx.fillStyle = css('--ink');
+  const label = Math.abs(sw.v) > 8 ? (sw.v > 0 ? 'sinkt …' : 'steigt …') : (st==='schwimmt' ? 'schwimmt' : st==='schwebt' ? 'schwebt' : 'liegt am Boden');
+  ctx.fillText(label, TANK.x1 + 14, 200);
+}
+
+/* --- Zeichenschleife --- */
+let lastT = 0;
+function loop(now){
+  const dt = Math.min(0.05, (now - lastT)/1000 || 0); lastT = now;
+  if (!vS.hidden){ drawJet(dt); drawGraph(); drawDive(now); }
+  if (!vA.hidden){ drawKm(); drawSw(dt); }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+bindHold(vS); bindHold(vA);
 })();
 </script>
 
