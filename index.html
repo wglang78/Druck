@@ -200,6 +200,9 @@ table.mtab th{font-family:var(--f-display)}
 table.mtab small{color:var(--muted)}
 .story{background:var(--warn-soft)}
 .task .ans + div:empty{display:none}
+.hold-overlay{position:fixed;inset:0;z-index:50;background:rgba(10,20,30,.45);display:flex;justify-content:center;align-items:flex-start;padding:12px;pointer-events:none}
+.hold-overlay > *{transform-origin:top center;box-shadow:0 10px 30px rgba(0,0,0,.3);background:var(--surface)}
+.hold-overlay > .solution{background:var(--ok-soft);border:2px solid var(--ok)}
 .mc label small{display:block;color:var(--muted);margin-top:2px}
 </style>
 
@@ -1706,14 +1709,41 @@ function updKw(){
   $('aKw').innerHTML = KW.map(([n,re]) => `<li class="${re.test(t)?'ok':''}">${n}</li>`).join('');
 }
 $('aText').addEventListener('input', updKw); updKw();
+
+/* Lösung beim Gedrückthalten sichtbar machen (auch am Seitenende) */
+window.__holdShow = (box, b) => {
+  box.hidden = false; b.classList.add('down');
+  b.__y = scrollY;
+  requestAnimationFrame(() => {
+    const r = box.getBoundingClientRect();
+    if (r.height > innerHeight - 32){
+      // höher als der Bildschirm: als Einblendung zeigen, passend verkleinert
+      const ov = document.createElement('div'); ov.className = 'hold-overlay';
+      const c = box.cloneNode(true); c.removeAttribute('id'); c.hidden = false;
+      c.style.width = r.width + 'px';
+      ov.appendChild(c); document.body.appendChild(ov); b.__ov = ov;
+      const h = c.getBoundingClientRect().height, sc = Math.min(1, (innerHeight - 24) / h);
+      c.style.transform = `scale(${sc})`;
+      return;
+    }
+    const over = r.bottom - innerHeight + 16;
+    if (over > 0) scrollBy({top: Math.min(over, r.top - 16), behavior: 'instant'});
+  });
+};
+window.__holdHide = (box, b) => {
+  if (box.hidden) return;
+  box.hidden = true; b.classList.remove('down');
+  if (b.__ov){ b.__ov.remove(); b.__ov = null; }
+  if (b.__y != null){ scrollTo({top: b.__y, behavior: 'instant'}); b.__y = null; }
+};
 /* Lösungen nur sichtbar, solange der Button gedrückt ist */
 document.querySelectorAll('[data-hold]').forEach(b => {
   const box = $(b.dataset.hold);
-  const show = e => { if (e.button > 0) return; e.preventDefault(); box.hidden = false; b.classList.add('down'); if (e.pointerId !== undefined) try { b.setPointerCapture(e.pointerId); } catch(_){} };
-  const hide = () => { box.hidden = true; b.classList.remove('down'); };
+  const show = e => { if (e.button > 0) return; e.preventDefault(); __holdShow(box, b); if (e.pointerId !== undefined) try { b.setPointerCapture(e.pointerId); } catch(_){} };
+  const hide = () => __holdHide(box, b);
   b.addEventListener('pointerdown', show);
   ['pointerup','pointercancel','lostpointercapture','blur'].forEach(t => b.addEventListener(t, hide));
-  b.addEventListener('keydown', e => { if (e.key===' ' || e.key==='Enter'){ e.preventDefault(); box.hidden = false; b.classList.add('down'); } });
+  b.addEventListener('keydown', e => { if ((e.key===' ' || e.key==='Enter') && !e.repeat){ e.preventDefault(); __holdShow(box, b); } });
   b.addEventListener('keyup', e => { if (e.key===' ' || e.key==='Enter') hide(); });
   b.addEventListener('contextmenu', e => e.preventDefault());
 });
@@ -1924,11 +1954,11 @@ function bindHold(root){
   root.querySelectorAll('[data-hold]').forEach(b => {
     if (b.dataset.bound) return; b.dataset.bound = 1;
     const box = $(b.dataset.hold);
-    const show = e => { if (e.button > 0) return; e.preventDefault(); box.hidden = false; b.classList.add('down'); try { b.setPointerCapture(e.pointerId); } catch(_){} };
-    const hide = () => { box.hidden = true; b.classList.remove('down'); };
+    const show = e => { if (e.button > 0) return; e.preventDefault(); __holdShow(box, b); try { b.setPointerCapture(e.pointerId); } catch(_){} };
+    const hide = () => __holdHide(box, b);
     b.addEventListener('pointerdown', show);
     ['pointerup','pointercancel','lostpointercapture','blur'].forEach(t => b.addEventListener(t, hide));
-    b.addEventListener('keydown', e => { if (e.key===' '||e.key==='Enter'){ e.preventDefault(); box.hidden = false; b.classList.add('down'); } });
+    b.addEventListener('keydown', e => { if ((e.key===' '||e.key==='Enter') && !e.repeat){ e.preventDefault(); __holdShow(box, b); } });
     b.addEventListener('keyup', e => { if (e.key===' '||e.key==='Enter') hide(); });
     b.addEventListener('contextmenu', e => e.preventDefault());
   });
